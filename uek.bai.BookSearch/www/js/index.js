@@ -48,16 +48,21 @@ function login()
 {
   document.getElementById('start').style.visibility = 'hidden';
   document.getElementById('login_p').style.visibility = 'visible';
+
 }
 function create()
 {
   document.getElementById('start').style.visibility = 'hidden';
   document.getElementById('create_p').style.visibility = 'visible';
 }
+function account_setup()
+{
+  
+}
 
 document.getElementById('login').addEventListener("click", login);
 document.getElementById('create').addEventListener("click", create);
-
+document.getElementById('b_pass').addEventListener("click",account_setup);
 
 document.getElementById('login_p').style.visibility = 'hidden';
 document.getElementById('create_p').style.visibility = 'hidden';
