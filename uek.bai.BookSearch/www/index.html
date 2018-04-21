@@ -28,7 +28,7 @@
             * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
                 * Enable inline JS: add 'unsafe-inline' to default-src
         -->
-        <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">
+      <!--  <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'https://www.googleapis.com' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;"> -->
         <meta name="format-detection" content="telephone=no">
         <meta name="msapplication-tap-highlight" content="no">
         <meta charset="utf-8">
@@ -45,7 +45,7 @@
         <input type="button" id="create" value="Załóź konto" />
       </p>
       <div id="login_p" class="forms">
-        Login: <br><input type="text" id="t_login"><br>
+        E-mail: <br><input type="email" id="t_login"><br>
         Hasło: <br><input type="password" id="passw"><br>
         <input type="button" id="b_login" value="Zaloguj">
       </div>
@@ -54,7 +54,7 @@
         Podaj hasło: <br><input type="password" id="t_passw"><br>
         Powtórz hasło: <br><input type="password" id="t_pass2"><br>
         Podaj email: <br><input type="email" id="t_email"><br>
-        Wklej addres obrazku avatara: <br><input type="url"><br>
+        Wklej addres obrazku avatara: <br><input type="url" id="t_avatar"><br>
         <input type="button" id="b_pass" value="Utwórz konto">
       </div>
         <script type="text/javascript" src="cordova.js"></script>

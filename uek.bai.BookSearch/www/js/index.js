@@ -48,7 +48,6 @@ function login()
 {
   document.getElementById('start').style.visibility = 'hidden';
   document.getElementById('login_p').style.visibility = 'visible';
-
 }
 function create()
 {
@@ -57,9 +56,26 @@ function create()
 }
 function account_setup()
 {
-  
+  var username = document.getElementById("t_create").value;
+  var password = document.getElementById("t_passw").value;
+  var passauth  = document.getElementById("t_pass2").value;
+  var email = document.getElementById("t_email").value;
+  var avatar =document.getElementById("t_avatar").value;
+  if(password!=passauth)
+  {
+    document.getElementById("deviceDetails").innerHTML = "Hasła się nie zgadzają";
+  }
+  else {
+    firebase.database().ref('users/' + username).set({
+  password: password,
+  email: email,
+  photo_url: avatar
+});
+
+  }
 }
 
+document.addEventListener("deviceready",app.onDeviceReady, false);
 document.getElementById('login').addEventListener("click", login);
 document.getElementById('create').addEventListener("click", create);
 document.getElementById('b_pass').addEventListener("click",account_setup);
