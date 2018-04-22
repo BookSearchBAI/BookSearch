@@ -72,6 +72,10 @@ function account_setup()
   photo_url: avatar
 });
 
+document.cookie= "username="+username;
+document.cookie= "password="+password;
+window.location = "account.html";
+
   }
 }
 
