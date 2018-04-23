@@ -219,7 +219,10 @@ $("document").ready(function(){
 		}
 	}
 
-	var userdaa;
+	var userData = {
+  
+	};
+
 	
 	var isExist1 = false;
 	function isUserExistInDatabase(email){
@@ -271,7 +274,12 @@ $("document").ready(function(){
 	  		title: 'Audi',
 	  		img: 'http://'
 		});*/
-		userdaa = newStoreRef.key;
+		userData.id = newStoreRef.key;
+		userData.name = name;
+		userData.email = email;
+		userData.password = password;
+		userData.photo_url = photo_url;
+		alert(userData.id + " " + userData.name + " " + userData.password);
 	}
 
 
@@ -315,10 +323,10 @@ $("document").ready(function(){
 	});
 
 	function testSignIn(email,password){
-		firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
-	  		alert("Email: " + email + " password: " + password);
-	  		var errorCode = error.code;
-	  		var errorMessage = error.message;
+		firebase.auth().signInWithEmailAndPassword(email, password).then(function(user) {
+			if(user){
+				alert("awd");
+			}
 		});
 	}
 
