@@ -1,0 +1,154 @@
+*{
+	padding: 0;
+	margin: 0;
+}
+
+body{
+	/*background-color: #ccc111;*/
+}
+
+.form-control{
+	width: 250px;
+	height: 25px;
+}
+
+.tooltip{
+	-webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+}
+
+.tooltip-inner {
+    max-width: 350px; 
+    width: 225px;
+}
+
+#authorizationForm .btn-default {
+	-webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+	background-color: #DB5503; 
+	color:#ffffff;
+    border-radius: 5px;
+    border-color: #803B03;
+}
+
+#authorizationForm .btn-default:hover {
+    background-color: #B54703; 
+}
+
+#authorizationForm{
+	outline: 1px solid #000000;
+	width:100%;
+	margin-right: 100px;
+	//height:380px;
+	position: relative;
+	//left:200px;
+}
+
+#authorizationForm h1{
+	font-family: "Times New Roman", sans-serif;
+	font-size:20px;
+	position: relative;
+	left:112px;
+	top:65px;
+	display: inline;
+}
+
+#authorizationForm .btn-block{
+	width: 250px;
+}
+
+#facebookSignIn{
+	position:relative;
+	top:70px;
+	left:75px;
+}
+
+#register{
+	width:120px;
+	position: relative;
+	top:75px;
+	left:75px;
+}
+
+#signin{
+	width:120px;
+	position: relative;
+	top:75px;
+	left:81px;
+}
+
+#registrationForm{
+	width:260px;
+	height:250px;
+	position:relative;
+	left:70px;
+	top:30px;
+	/*outline: 1px solid #000000;*/
+	display: none;
+}
+
+#registrationForm .form-group{
+	width:250px;
+	/*outline:1px solid #000000;*/
+	margin-bottom:5px;
+	margin-left:5px;
+}
+
+#registrationForm .user_register_first_name_info{
+	margin-left: 157px;
+}
+
+#registrationForm .user_register_email_address_info{
+	margin-left: 192px;
+}
+
+#registrationForm .user_register_password_info{
+	margin-left: 163px;
+}
+
+#registrationForm .user_register_confirm_password_info{
+	margin-left: 106px;
+}
+
+#registrationForm #user_register_button{
+	width:125px;
+	margin-left:5px;
+}
+
+#registrationForm .form-group label{
+	margin-bottom: 3px;
+}
+
+#customSignIn{
+	width:260px;
+	height:150px;
+	position:relative;
+	left:70px;
+	top:30px;
+	/*outline: 1px solid #000000;*/
+	display: none;
+}
+
+#customSignIn .form-group{
+	width:250px;
+	/*outline:1px solid #000000;*/
+	margin-bottom:5px;
+	margin-left:5px;
+}
+
+#customSignIn .user_custom_signin_email_info{
+	margin-left: 192px;
+}
+
+#customSignIn .user_custom_signin_password_info{
+	margin-left: 163px;
+}
+
+#customSignIn .form-group label{
+	margin-bottom: 3px;
+}
+
+#customSignIn #user_custom_signin_button{
+	width:125px;
+	margin-left:5px;
+}
