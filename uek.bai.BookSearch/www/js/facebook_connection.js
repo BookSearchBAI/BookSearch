@@ -1,6 +1,6 @@
 
 $("document").ready(function(){
-	
+
 	function init() {
 		document.addEventListener("deviceready",onDeviceReady, false);
 	}
@@ -22,13 +22,13 @@ $("document").ready(function(){
 
 	$("#facebookSignIn").click(function(){
 		var facebookProvider = new firebase.auth.FacebookAuthProvider();
-		signIn(facebookProvider); 
+		signIn(facebookProvider);
 	});
-	
+
 	$("#signOut").click(function(){
 		signOut();
 	});
-	
+
 	function signIn(provider){
 
 		firebase.auth().signInWithPopup(provider).then(function(result){
@@ -46,12 +46,12 @@ $("document").ready(function(){
 			 $("#providerId").text(user.providerData[0].providerId);
 			 $("#userId").text(user.providerData[0].uid);
 		}).catch(function(error) {
-			 
+
 			  var errorCode = error.code;
 			  var errorMessage = error.message;
 			  var email = error.email;
 			  var credential = error.credential;
-		
+
 		});
 
 	}
@@ -69,8 +69,8 @@ $("document").ready(function(){
 		 $("#providerId").text("");
 		 $("#userId").text("");
 		}).catch(function(error) {
-		  alert("error");	
-		});	
+		  alert("error");
+		});
 	}
 
 	var a = true;
@@ -78,7 +78,7 @@ $("document").ready(function(){
 		if(a){
 			$('#signin').attr("disabled","");
 			reduceFormAnimateAhead();
-		
+
 			$("#registrationForm").delay(1000).slideDown(3000);
 			a = false;
 		}else{
@@ -87,16 +87,16 @@ $("document").ready(function(){
 
 			$('#signin').delay(3200).queue(function(next) { $(this).removeAttr('disabled'); next(); });
 			a=true;
-		}	
+		}
 	});
 
 	var b = true;
 	$("#signin").click(function(){
 		if(b){
 			$('#register').attr("disabled","");
-			
+
 			reduceFormAnimateAhead();
-		
+
 			$("#customSignIn").delay(1000).slideDown(3000);
 			b = false;
 		}else{
@@ -106,7 +106,7 @@ $("document").ready(function(){
 
 			$('#register').delay(3200).queue(function(next) { $(this).removeAttr('disabled'); next(); });
 			b=true;
-		}	
+		}
 	});
 
 	function reduceFormAnimateAhead(){
@@ -153,23 +153,23 @@ $("document").ready(function(){
 		//alert(isExist.length);
 		registration();
 	});
-	
+
 	function registration(){
-	
-		var regRegisterFirstNameExpression = /^[A-Z]{1}[a-z]+[?=.\ ][A-Z]{1}[a-z]+$/; //good 
-		var regRegisterEmailExpression = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;//good 
+
+		var regRegisterFirstNameExpression = /^[A-Z]{1}[a-z]+[?=.\ ][A-Z]{1}[a-z]+$/; //good
+		var regRegisterEmailExpression = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;//good
 		var regRegisterPasswordExpression = /^(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@#$%^&+=]).*$/; //good
-		
+
 		var userRegisterFirstName = $("#user_register_first_name").val();
 		var userRegisterEmailAddress = $("#user_register_email_address").val();
 		var userRegisterPassword = $("#user_register_password").val();
 		var userRegisterConfirmPassword = $("#user_register_confirm_password").val();
-		
+
 		var userRegisterFirstNameMatch = userRegisterFirstName.match(regRegisterFirstNameExpression);
 		var userRegisterEmailAddressMatch = userRegisterEmailAddress.match(regRegisterEmailExpression);
 		var userRegisterPasswordMatch = userRegisterPassword.match(regRegisterPasswordExpression);
 		var userRegisterConfirmPasswordMatch = userRegisterConfirmPassword.match(regRegisterPasswordExpression);
-		
+
 		if(userRegisterFirstName == userRegisterFirstNameMatch) {
 			$("#user_register_first_name").css("border","1px solid green");
 		}
@@ -206,7 +206,7 @@ $("document").ready(function(){
 			if(!isUserExistInDatabase(userRegisterEmailAddress)){
 				addUserToDatabase(userRegisterFirstName,userRegisterEmailAddress,userRegisterConfirmPassword,"aa");
 				firebase.auth().createUserWithEmailAndPassword(email, password).then(function(user){
-					//alert("registered");	
+					//alert("registered");
 				}).catch(function(error) {
 				    var errorCode = error.code;
 				    var errorMessage = error.message;
@@ -220,10 +220,10 @@ $("document").ready(function(){
 	}
 
 	var userData = {
-  
+
 	};
 
-	
+
 	var isExist1 = false;
 	function isUserExistInDatabase(email){
 		for(var i = 0; i<isExist.length; i++){
@@ -285,13 +285,13 @@ $("document").ready(function(){
 
 	$("#user_custom_signin_button").click(function(){
 
-		var regSignInEmailExpression = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;//good 
+		var regSignInEmailExpression = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;//good
 		var regSignInPasswordExpression = /^(?=.{8,})(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@#$%^&+=]).*$/; //good
-		
+
 		var userSignInEmailAddress = $("#user_custom_signin_email").val();
 		var userSignInPassword = $("#user_custom_signin_password").val();
-		
-	
+
+
 		var userSignInEmailAddressMatch = userSignInEmailAddress.match(regSignInEmailExpression);
 		var userRegisterPasswordMatch = userSignInPassword.match(regSignInPasswordExpression);
 
@@ -323,11 +323,13 @@ $("document").ready(function(){
 	});
 
 	function testSignIn(email,password){
+		window.localStorage.setItem("login",email);
 		firebase.auth().signInWithEmailAndPassword(email, password).then(function(user) {
 			if(user){
 				alert("awd");
 			}
 		});
+		$.mobile.changePage( "./panel.html", { transition: "slideup", changeHash: false });
 	}
 
 });

@@ -1,0 +1,59 @@
+<html>
+<head>
+  <title>Panel użytkownika</title>
+  <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+  <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--popper import -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+
+  <!--bootstrap_cdn css and js import -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+  <!--firebase config import -->
+  <script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
+  <script type="text/javascript" src="js/firebase_connection.js"></script>
+  <!--facebook connection import -->
+  <script type="text/javascript" src="js/facebook_connection.js" async></script>
+  <!--tooltip configuration import -->
+  <script type="text/javascript" src="js/tooltip_configuration.js"></script>
+  <!--font awesome import -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!--bootstrap-social import -->
+  <link href="css/bootstrap-social.css" rel="stylesheet">
+  <!--main css style import -->
+  <link href="css/style.css" rel="stylesheet">
+<script type="text/javascript" src="js/panel.js"></script>
+  <script src="cordova.js"></script>
+  <script type="text/javascript">
+(function() {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.async = true;
+    script.src = "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js";
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(script);
+})();
+</script>
+  </head>
+  <body onload="init()">
+  <div id="profileForm">
+  <div id="profilepic" style="float:left"><img id="propic" width="40%" height="40%"></div><div id="userdata" style="float:right"></div>
+  <br>
+  <button id="addbook" class="btn btn-default" onclick="add()">Add Book</button>
+  </div>
+
+  <div id="addbookform" style="visibility:hidden">
+  <p style="float:left">Enter ISBN: <input  id="isbn" type="text" class="form-control"></p><button style="float:right" id="isbn_check" class="btn btn-default" onclick="loadb()">Load details</button>
+  <br>
+  <br>
+  <br>
+  Ttile: <label id="title"></label>
+  <br>
+  Author: <label id="authors"></label>
+  <br>
+  <button id="loadbook" onclick="adder()" class="btn btn-default">Add your offer to database</button>
+  </div>
+
+</body>
