@@ -11,8 +11,14 @@
 	</author>
 
 	<platform name="android" />
-	<platform name="ios" />
 	<plugin name="cordova-plugin-device" spec="2.0.1" />
 	<plugin name="cordova-plugin-dialogs" spec="2.0.1" />
-
+	<!--<plugin name="cordova-plugin-firebase" spec="^1.0.0" />
+	<universal-links>
+		<host name="https://zr253.app.goo.gl" scheme="https" />
+	    <host name="booksearch-79aa4.firebaseapp.com" scheme="https">
+	        <path url="/__/auth/callback"/>
+	    </host>
+	</universal-links>
+	<preference name="AndroidLaunchMode" value="singleTask" />-->
 </widget>

@@ -1,99 +1,186 @@
-
 <html>
 <head>
 	<title>Book Search</title>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	
 	<!--jquery,jquery mobile and jquery mobile css import -->
-	<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+	
 	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<!--popper import -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
 	
-	<!--bootstrap_cdn css and js import -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-	
-	<!--firebase config import -->
-	<script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
-	<script type="text/javascript" src="js/firebase_connection.js"></script>
 	<!--facebook connection import -->
-	<script type="text/javascript" src="js/facebook_connection.js" async></script>
-	<!--tooltip configuration import -->
-	<script type="text/javascript" src="js/tooltip_configuration.js"></script>
-	<!--font awesome import -->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	<!--bootstrap-social import -->
-	<link href="css/bootstrap-social.css" rel="stylesheet">
-	<!--main css style import -->
+	
 	<link href="css/style.css" rel="stylesheet">
-	<script src="cordova.js"></script>
-	<script type="text/javascript">
-(function() {
-    var script = document.createElement("script");
-    script.type = "text/javascript";
-    script.async = true;
-    script.src = "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js";
-    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(script);
-})();
-</script>
+	<script src="https://www.gstatic.com/firebasejs/4.13.0/firebase.js"></script>
+	<script src="js/firebase_connection.js"></script>
+	<script src="js/main_functionality.js"></script>
 </head>
-<body onload="init()">
-	<div id="authorizationForm" data-role="page">
-		<div data-role="main">
-			<h1 id="authorizationTitle">Sign in to BookSearch</h1>
-			<button id="facebookSignIn" class="btn btn-block btn-social btn-facebook btn-md"><span class="fa fa-facebook"></span>Continue with Facebook</button>
-			<button id="register" class="btn btn-default">Register</button>
-			<button id="signin" class="btn btn-default">Sign In</button>
-			<div id="registrationForm">
-				<div class="form-group">
-					<label for="user_register_first_name">First Name</label>
-					<a class="user_register_first_name_info"><i class="fa fa-question-circle fa-lg"></i></a>
-					<input type="text" class="form-control" maxlength="20" id="user_register_first_name" value="Your first name">
-				</div>
-				<div class="form-group">
-					<label for="user_register_email_address">Email</label>
-					<a class="user_register_email_address_info"><i class="fa fa-question-circle fa-lg"></i></a>
-					<input type="email" class="form-control" maxlength="30" id="user_register_email_address" value="Your email">
-				</div>
-				<div class="form-group">
-					<label for="user_register_password">Password</label>
-					<a class="user_register_password_info"><i class="fa fa-question-circle fa-lg"></i></a>
-					<input type="password" class="form-control" maxlength="20" id="user_register_password">
-				</div>
-				<div class="form-group">
-					<label for="user_register_confirm_password">Confirm Password</label>
-					<a class="user_register_confirm_password_info"><i class="fa fa-question-circle fa-lg"></i></a>
-					<input type="password" class="form-control" maxlength="20" id="user_register_confirm_password">
-				</div>
-				<button id="user_register_button" class="btn btn-primary">Register</button>
-			</div>
-			<div id="customSignIn">
-				<div class="form-group">
-					<label for="user_custom_signin_email">Email</label>
-					<a class="user_custom_signin_email_info"><i class="fa fa-question-circle fa-lg"></i></a>
-					<input type="text" class="form-control" maxlength="30" id="user_custom_signin_email" value="Your email">
-				</div>
-				<div class="form-group">
-					<label for="user_custom_signin_password">Password</label>
-					<a class="user_custom_signin_password_info"><i class="fa fa-question-circle fa-lg"></i></a>
-					<input type="password" class="form-control" maxlength="30" id="user_custom_signin_password" value="Your password">
-				</div>
-				<button id="user_custom_signin_button" class="btn btn-primary">Sign In</button>
-			</div>
+<body>
+	<!-- Sign In Activity-->
+	<div data-role="page" id="signInPage">
+		<div data-role="header" class="ui-content">
+			<div id="library"></div>
 		</div>
+		<div data-role="main" class="ui-content">
+			<h1 style="text-align:center;">WELCOME TO BOOK SEARCH</h1>
+			<div class="ui-grid-solo">
+    			<div class="ui-block-a">
+					<label for="signInEmail">Email:</label>
+					<input id="signInEmail" type="email" data-clear-btn="true">
+					<label for="signInPassword">Password:</label>
+					<input id="signInPassword" type="password">
+				</div>
+			</div>
+			<div class="ui-grid-a">
+    			<div class="ui-block-a">
+					<button class="ui-btn ui-corner-all" onclick="signIn()">SIGN IN</button>
+				</div>
+    			<div class="ui-block-b">
+					<a href="#signUpPage" data-transition="slidedown" class="ui-btn ui-corner-all">SIGN UP</a>
+				</div>
+			</div>
+			<div class="ui-grid-solo">
+    			<div class="ui-block-a">
+					<button class="ui-btn ui-corner-all" onclick="facebookSignIn()">CONTINUE WITH FACEBOOK</button><br>
+				</div>
+			</div>
+    	</div>
+		<div data-role="footer" class="ui-content">
+			<h1>WELCOME TO BOOK SEARCH</h1>
+    	</div>
 	</div>
-
-	<div id="profileForm" data-role="page">
-			<p id="userName"></p>
-			<p id="userEmailAddress"></p>
-			<p id="userPhoneNumber"></p>
-			<img id="userProfileImage"></img>
-			<p id="providerId"></p>
-			<p id="userId"></p>
-	</div>
-
-
+	<!-- Sign Up Activity-->
+	<div data-role="page" id="signUpPage">
+		<div data-role="header" class="ui-content">
+			<div id="library"></div>
+		</div>
+    	<div data-role="main" class="ui-content">
+			<h1 style="text-align:center;">WELCOME TO BOOK SEARCH</h1>
+			<div class="ui-grid-solo">
+    			<div class="ui-block-a">
+					<label for="signUpName">Name:</label>
+					<input id="signUpName" type="text" data-clear-btn="true">
+		    		<label for="signUpEmail">Email:</label>
+					<input id="signUpEmail" type="email" data-clear-btn="true">
+					<label for="signUpPassword">Password:</label>
+					<input id="signUpPassword" type="password">
+					<label for="signUpConfirmPassword">Confirm Password:</label>
+					<input id="signUpConfrimPassword" type="password">
+					<button class="ui-btn ui-corner-all" onclick="signUp()">SIGN UP</button>
+				</div>	
+    		</div>
+		</div>
+		<div data-role="footer" class="ui-content">
+			<h1>WELCOME TO BOOK SEARCH</h1>
+    	</div>
+    </div>
+	<!-- Main Menu Activity-->
+    <div data-role="page" id="mainMenu">
+		<div data-role="header" class="ui-content">
+			<div id="library"></div>
+		</div>
+    	<div data-role="main" class="ui-content">
+			<h1 style="text-align:center;">HELLO IN THE BOOKSEARCH</h1>
+			<div class="ui-grid-b">
+			    <div class="ui-block-a" style="width:25%;"></div>
+			    <div class="ui-block-b" style="width:50%;">
+					<button class="ui-btn ui-corner-all" data-transition="slidedown" onclick="userProfile()">MY PROFILE</button>
+					<button class="ui-btn ui-corner-all" data-transition="slidedown" onclick="">SEARCH BOOK ON THE MAP</button>
+					<button class="ui-btn ui-corner-all" data-transition="slidedown" onclick="">SEARCH BOOK ON THE LIST</button>
+					<a class="ui-btn ui-corner-all" data-transition="slidedown" href="#addBook">ADD YOUR BOOK</a>
+					<button class="ui-btn ui-corner-all" onclick="logOut()">LOG OUT</button>	
+				</div>
+			    <div class="ui-block-c" style="width:25%;"></div>
+			</div>
+    	</div>
+		<div data-role="footer" class="ui-content">
+			<h1>CHANGE WORLD THANKS TO YOUR HEART</h1>
+    	</div>
+    </div>
+	<!-- Add Book Activity-->
+	<div data-role="page" id="addBook">
+		<div data-role="header" class="ui-content">
+			<div id="library"></div>
+		</div>
+    	<div data-role="main" class="ui-content">
+			<div class="ui-grid-b">
+			    <div class="ui-block-a" style="width:25%;"></div>
+			    <div class="ui-block-b" style="width:50%;">
+					<label for="isbn">ISBN:</label>
+					<input id="isbn" type="text" data-clear-btn="true">
+					<button class="ui-btn ui-corner-all" onclick="checkISBN()">Check it</button>
+					<input type="text" id="title" value="Title" disabled>
+					<input type="text" id="authors" value="Authors" disabled>
+					<input type="text" id="publishedDate" value="Published date" disabled>
+					<input type="text" id="pageCount" value="Page count" disabled>
+					<input type="text" id="price" value="Type a price">
+					<input type="text" id="mobilenumber" value="Type your mobile number">
+					<button class="ui-btn ui-corner-all" id="addBookButton" onclick="addBookToDataBase()" disabled>Add book</button>
+				</div>
+			    <div class="ui-block-c" style="width:25%;"></div>
+			</div>
+    	</div>
+		<div data-role="footer" class="ui-content">
+			<h1>CHANGE WORLD THANKS TO YOUR HEART</h1>
+    	</div>
+    </div>
+	<!-- Added Books Activity-->
+	<div data-role="page" id="addedBooks">
+		<div data-role="header" class="ui-content">
+			<div id="library"></div>
+		</div>
+    	<div data-role="main" class="ui-content">
+			<div class="ui-grid-b">
+			    <div class="ui-block-a" style="width:25%;"></div>
+			    <div id="lista" class="ui-block-b" style="width:50%;">
+					
+				</div>
+			    <div class="ui-block-c" style="width:25%;"></div>
+			</div>
+    	</div>
+		<div data-role="footer" class="ui-content">
+			<h1>CHANGE WORLD THANKS TO YOUR HEART</h1>
+    	</div>
+    </div>
+	<!-- User Profile Activity-->
+	<div data-role="page" id="userProfile">
+		<div data-role="header" class="ui-content">
+			<div id="library"></div>
+		</div>
+    	<div data-role="main" class="ui-content">
+			<div class="ui-grid-a">
+				<div class="ui-block-a"><div style="float: right; margin-right:30px;"><img id="userPhoto"></img></div></div>
+				<div class="ui-block-b">
+					<p id="userName">Name: </p>
+					<p id="userEmail">Email: </p>
+					<p id="userId">ID: </p>
+					<!--<button class="ui-btn ui-corner-all" onclick="currentUser()">Current User</button>-->
+				</div>
+			</div>
+			<div class="ui-grid-c">
+				<div class="ui-block-a">	
+				</div>
+				<div class="ui-block-b">
+					<button class="ui-btn ui-corner-all" data-transition="slidedown" onclick="addedBooks()">ADDED BOOKS</button>
+				</div>
+				<div class="ui-block-c">
+					<button class="ui-btn ui-corner-all" data-transition="slidedown" onclick="">OTHER TEXT</button>
+				</div>
+				<div class="ui-block-d">	
+				</div>
+	    	</div>
+		<div data-role="footer" class="ui-content">
+			<h1>CHANGE WORLD THANKS TO YOUR HEART</h1>
+    	</div>
+    </div>
+	
+	
+	
+	
+	
+	<!-- Added Books Activity-->	
+		
 
 </body>
 </html>
