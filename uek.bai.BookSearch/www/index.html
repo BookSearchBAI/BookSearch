@@ -87,8 +87,9 @@
 			    <div class="ui-block-b" style="width:50%;">
 					<button class="ui-btn ui-corner-all" data-transition="slidedown" onclick="userProfile()">MY PROFILE</button>
 					<button class="ui-btn ui-corner-all" data-transition="slidedown" onclick="">SEARCH BOOK ON THE MAP</button>
-					<button class="ui-btn ui-corner-all" data-transition="slidedown" onclick="">SEARCH BOOK ON THE LIST</button>
+					<a href="#searchBook" class="ui-btn ui-corner-all" data-transition="slidedown">SEARCH BOOK ON THE LIST</a>
 					<a class="ui-btn ui-corner-all" data-transition="slidedown" href="#addBook">ADD YOUR BOOK</a>
+					<button class="ui-btn ui-corner-all" data-transition="slidedown" onclick="showFriends()">MY FRIENDS</button>
 					<button class="ui-btn ui-corner-all" onclick="logOut()">LOG OUT</button>	
 				</div>
 			    <div class="ui-block-c" style="width:25%;"></div>
@@ -134,7 +135,8 @@
 			<div class="ui-grid-b">
 			    <div class="ui-block-a" style="width:25%;"></div>
 			    <div id="lista" class="ui-block-b" style="width:50%;">
-					
+					<ul id='list' data-role='listview' data-inset='true'>
+					</ul>
 				</div>
 			    <div class="ui-block-c" style="width:25%;"></div>
 			</div>
@@ -143,6 +145,50 @@
 			<h1>CHANGE WORLD THANKS TO YOUR HEART</h1>
     	</div>
     </div>
+	
+	<!-- Search Book On The List Activity-->	
+		
+	<div data-role="page" id="searchBook">
+		<div data-role="header" class="ui-content">
+			<div id="library"></div>
+		</div>
+    	<div data-role="main" class="ui-content">
+			<div class="ui-grid-b">
+			    <div class="ui-block-a" style="width:25%;"></div>
+			    <div id="lista1" class="ui-block-b" style="width:50%;">
+					<label for="searchBookName">Type name of book:</label>
+					<input id="searchBookName" type="search" data-clear-btn="true">
+					<button class="ui-btn ui-corner-all" onclick="searchBookOnTheList()">SEARCH IT</button>
+					<ul id='list1' data-role='listview' data-inset='true'>
+					</ul>
+				</div>
+			    <div class="ui-block-c" style="width:25%;"></div>
+			</div>
+    	</div>
+		<div data-role="footer" class="ui-content">
+			<h1>CHANGE WORLD THANKS TO YOUR HEART</h1>
+    	</div>
+    </div>
+	<!-- My Friends Activity-->
+	<div data-role="page" id="showFriends">
+		<div data-role="header" class="ui-content">
+			<div id="library"></div>
+		</div>
+    	<div data-role="main" class="ui-content">
+			<div class="ui-grid-b">
+			    <div class="ui-block-a" style="width:25%;"></div>
+			    <div id="lista2" class="ui-block-b" style="width:50%;">
+					<ul id='list2' data-role='listview' data-inset='true'>
+					</ul>
+				</div>
+			    <div class="ui-block-c" style="width:25%;"></div>
+			</div>
+    	</div>
+		<div data-role="footer" class="ui-content">
+			<h1>CHANGE WORLD THANKS TO YOUR HEART</h1>
+    	</div>
+    </div>
+	
 	<!-- User Profile Activity-->
 	<div data-role="page" id="userProfile">
 		<div data-role="header" class="ui-content">
@@ -174,13 +220,7 @@
 			<h1>CHANGE WORLD THANKS TO YOUR HEART</h1>
     	</div>
     </div>
-	
-	
-	
-	
-	
-	<!-- Added Books Activity-->	
 		
-
+	
 </body>
 </html>
