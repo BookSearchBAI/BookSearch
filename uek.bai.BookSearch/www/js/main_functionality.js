@@ -161,6 +161,7 @@ function addBookToDataBase(){
 	var isbn = $('#isbn').val();
 	var mobilenumber = $('#mobilenumber').val();
 	var price = $('#price').val();
+	var geoloc = $('#coords').val();
 	
 	var starCountRef = firebase.database().ref('users');
 	var result = false;
@@ -186,7 +187,8 @@ function addBookToDataBase(){
 				published_date: publishedDate,
 				page_count: pageCount,
 				price: price,
-				mobile_number: mobilenumber
+				mobile_number: mobilenumber,
+				location_ccords: geoloc
 			});
 			alert("Your book successfully added");
 		}else{
@@ -422,5 +424,37 @@ function currentUser(){
 	  alert("noone");
 	}
 }
+
+function geofetch() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else {
+        x.innerHTML = "Geolocation is not supported by this browser.";
+    }
+}
+function showPosition(position) {
+    $("#coords").val(position.coords.latitude + " " + position.coords.longitude);
+}
+
+function geomanual() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else {
+        x.innerHTML = "Geolocation is not supported by this browser.";
+    }
+	function showPosition(position) {
+    var mymap = L.map('mapid').setView([position.coords.latitude, position.coords.longitude], 13);
+	L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+    maxZoom: 18,
+    id: 'mapbox.streets',
+    accessToken: 'pk.eyJ1Ijoia29rYTk1IiwiYSI6ImNqZ3pxcXFsaTJxbzQzM3F3MDBhYXhvY2YifQ.1BZrM4aZkhZuJgYBt1F-Ag'
+}).addTo(mymap);
+mymap.on('click', function(e) {
+    $("#coords").val(e.latlng.lat + " " + e.latlng.lng);
+});
+}
+}
+
 
 	

@@ -13,3 +13,4 @@ h1{
 	background-position: -150px -100px;
 }
 .ui-page { -webkit-backface-visibility: hidden; }
+#mapid { height: 180px; }
