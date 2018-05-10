@@ -21,6 +21,14 @@
 	<script src="https://www.gstatic.com/firebasejs/4.13.0/firebase.js"></script>
 	<script src="js/firebase_connection.js"></script>
 	<script src="js/main_functionality.js"></script>
+	
+	<!--chart -->
+
+	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+	<script type="text/javascript">
+		google.load('visualization', '1.0', {'packages':['corechart']});
+	</script>
+	
 </head>
 <body>
 	<!-- Sign In Activity-->
@@ -96,6 +104,7 @@
 					<a href="#searchBook" class="ui-btn ui-corner-all" data-transition="slidedown">SEARCH BOOK ON THE LIST</a>
 					<a class="ui-btn ui-corner-all" data-transition="slidedown" href="#addBook">ADD YOUR BOOK</a>
 					<button class="ui-btn ui-corner-all" data-transition="slidedown" onclick="showFriends()">MY FRIENDS</button>
+					<button class="ui-btn ui-corner-all" data-transition="slidedown" onclick="drawChart()">SHOW CHART</button>
 					<button class="ui-btn ui-corner-all" onclick="logOut()">LOG OUT</button>	
 				</div>
 			    <div class="ui-block-c" style="width:25%;"></div>
@@ -211,6 +220,24 @@
 					</ul>
 				</div>
 			    <div class="ui-block-c" style="width:25%;"></div>
+			</div>
+    	</div>
+		<div data-role="footer" class="ui-content">
+			<h1>CHANGE WORLD THANKS TO YOUR HEART</h1>
+    	</div>
+    </div>
+	
+	<!-- Chart activity -->
+	<div data-role="page" id="showChart">
+		<div data-role="header" class="ui-content">
+			<div id="library"></div>
+		</div>
+    	<div data-role="main" class="ui-content">
+			<div class="ui-grid-b">
+				<div class="ui-block-a" style="width:25%;"></div>
+				<div id="chart_div" class="ui-block-b" style="width:50%">
+				</div>
+				<div class="ui-block-c" style="width:25%;"></div>
 			</div>
     	</div>
 		<div data-role="footer" class="ui-content">

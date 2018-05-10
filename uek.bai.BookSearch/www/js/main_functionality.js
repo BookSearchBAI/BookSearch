@@ -188,9 +188,11 @@ function addBookToDataBase(){
 				page_count: pageCount,
 				price: price,
 				mobile_number: mobilenumber,
+				book_status: "true",
 				location_ccords: geoloc
 			});
 			alert("Your book successfully added");
+			$.mobile.changePage("#mainMenu");
 		}else{
 			alert("The book already exist in database");
 		}
@@ -216,17 +218,60 @@ function addedBooks(){
 			$("#list").append(published_date);
 			$("#list").append(price);
 			$("#list").append(mobile_number);
-			$("#list").append(delete_button);
+			
+			var book_status = childSnapshot.val().book_status;
+			if(book_status == "false"){
+				var delete_button = "<li><button class=\"ui-btn ui-corner-all\" onclick=\"deleteBook(" + isbn + ")\" disabled" + ">DELETE BOOK</button></li>";
+				var confirm_button = "<li><button class=\"ui-btn ui-corner-all\" onclick=\"confirmTransaction(" + isbn + ")\"" + ">CONFIRM TRANSACTION</button></li>";
+				$("#list").append(delete_button);
+				$("#list").append(confirm_button);
+				
+				var starCountRef1 = firebase.database().ref('users');
+				 starCountRef1.on('value', function(snapshot) {
+					snapshot.forEach(function(childSnapshot) {
+						console.log(childSnapshot.val());
+						if(childSnapshot.val().bookedbooks!=null){
+							console.log(isbn + " " + Object.keys(childSnapshot.val().bookedbooks)[0]);
+							if((isbn == Object.keys(childSnapshot.val().bookedbooks)[0]) && (userInfo.id!=childSnapshot.key)){
+								var cancel_button = "<li><button class=\"ui-btn ui-corner-all\" onclick=\"cancelTransaction(" + isbn + "," + "'"+childSnapshot.key+"'" + ")\"" + ">CANCEL TRANSACTION</button></li>";
+								$("#list").append(cancel_button);	
+							}
+						}
+					});
+				 });
+			}else{
+				$("#list").append(delete_button);
+			}
 		});
 	});
-	
 	$.mobile.changePage("#addedBooks");
-	
 }
 
 function deleteBook(isbn){
+
 	var starCountRef = firebase.database().ref('users/' + userInfo.id + '/books/' + isbn);
 	starCountRef.remove();
+}
+
+function confirmTransaction(isbn){
+	var starCountRef = firebase.database().ref('users/' + userInfo.id + '/books/' + isbn);
+	starCountRef.update({
+		book_status: "true"
+	});
+	starCountRef.remove();
+	alert("Transakcja potwierdzona,ksiazka wendruje do kupujacej osoby");
+	$.mobile.changePage("#mainMenu");
+}
+
+function cancelTransaction(isbn,friendID){
+	var starCountRef1 = firebase.database().ref('users/' + friendID + '/bookedbooks/' + isbn);
+	starCountRef1.remove();
+	var starCountRef = firebase.database().ref('users/' + userInfo.id + '/books/' + isbn);
+	starCountRef.update({
+		book_status: "true"
+	});
+	alert("Transakcja odrzucona,ksiazka jest ponownie dostepna dla innych osob");
+	$.mobile.changePage("#mainMenu");
 }
 
 
@@ -250,8 +295,13 @@ function searchBookOnTheList(){
 					var page_count = "<li>" + "Pages: " + Object.values(childSnapshot.val().books)[0].page_count + "</li>";
 					var published_date = "<li>" + "Published date: " + Object.values(childSnapshot.val().books)[0].published_date + "</li>";
 					var price = "<li style=\"color:#ff0000;\">" + "Price: " + Object.values(childSnapshot.val().books)[0].price + "</li>";
-					var isbn = "11";
-					var book_button = "<li><button class=\"ui-btn ui-corner-all\" onclick=\"bookTheBook(" + "'" + Object.keys(childSnapshot.val().books)[0] + "'" +"," + "'"+childSnapshot.key+"'" + ")\"" + ">BOOK IT</button></li>";
+					var status_of_book = Object.values(childSnapshot.val().books)[0].book_status;
+					var book_button;
+					if(status_of_book=="true"){
+						book_button = "<li><button class=\"ui-btn ui-corner-all\" onclick=\"bookTheBook(" + "'" + Object.keys(childSnapshot.val().books)[0] + "'" +"," + "'"+childSnapshot.key+"'" + ")\"" + ">BOOK IT</button></li>";	
+					}else{
+						book_button = "<li><button class=\"ui-btn ui-corner-all\" onclick=\"bookTheBook(" + "'" + Object.keys(childSnapshot.val().books)[0] + "'" +"," + "'"+childSnapshot.key+"'" + ")\" disabled" + ">BOOK IT</button></li>";	
+					}
 					var add_friend_button = "<li><button class=\"ui-btn ui-corner-all\" onclick=\"addToFriend(" + "'"+childSnapshot.key+"'" + ")\"" + ">ADD TO FRIEND</button></li>";
 					$("#list1").append(user_name);
 					$("#list1").append(user_email);
@@ -281,6 +331,7 @@ function bookTheBook(isbn,ownerID){
 	var owner_name;
 	var owner_email;
 	var owner_mobile;
+	var owner_id;
 	var book_title;
 	var book_authors;
 	var book_page_count;
@@ -292,17 +343,22 @@ function bookTheBook(isbn,ownerID){
 		var owner = snapshot.val();
 		owner_name = owner.username;
 		owner_email = owner.email;
+		owner_id = snapshot.key
 	});
 	
 	var bookid = firebase.database().ref('users/' + ownerID + '/books/' + isbn);
 	bookid.once("value").then(function(snapshot) {
-		var ownersbook = snapshot.val();
-		owner_mobile = ownersbook.mobile_number;
-		book_title = ownersbook.title;
-		book_authors = ownersbook.authors;
-		book_page_count = ownersbook.page_count;
-		book_price = ownersbook.price;
-		book_published_date = ownersbook.published_date;
+		bookid.update({
+			  book_status: "false"
+		}).then(function() {
+			var ownersbook = snapshot.val();
+			owner_mobile = ownersbook.mobile_number;
+			book_title = ownersbook.title;
+			book_authors = ownersbook.authors;
+			book_page_count = ownersbook.page_count;
+			book_price = ownersbook.price;
+			book_published_date = ownersbook.published_date;	
+		});
 	});
 	
 	setTimeout(function(){
@@ -311,6 +367,7 @@ function bookTheBook(isbn,ownerID){
 			owner_name: owner_name,
 			owner_email: owner_email,
 			owner_mobile: owner_mobile,
+			owner_id: owner_id,
 			title: book_title,
 			authors:book_authors,
 			page_count: book_page_count,
@@ -387,7 +444,7 @@ function bookedBooks(){
 			var published_date = "<li>" + "Published date: " + childSnapshot.val().published_date + "</li>";
 			var price = "<li style=\"color:#ff0000;\">" + "Price: " + childSnapshot.val().price + "</li>";
 			var isbn = Object.keys(snapshot.val())[0];
-			var delete_button = "<li><button class=\"ui-btn ui-corner-all\" onclick=\"deleteBookedBook(" + isbn + ")\"" + ">DELETE BOOKED BOOK</button></li>";
+			//var delete_button = "<li><button class=\"ui-btn ui-corner-all\" onclick=\"deleteBookedBook(" + isbn + ")\"" + ">DELETE BOOKED BOOK</button></li>";
 			$("#list3").append(owner_name);
 			$("#list3").append(owner_email);
 			$("#list3").append(owner_mobile_number);
@@ -396,7 +453,7 @@ function bookedBooks(){
 			$("#list3").append(pageCount);
 			$("#list3").append(published_date);
 			$("#list3").append(price);
-			$("#list3").append(delete_button);
+			//$("#list3").append(delete_button);
 		});
 	});
 	
@@ -407,6 +464,48 @@ function bookedBooks(){
 function deleteBookedBook(booked_book_id){
 	var starCountRef = firebase.database().ref('users/' + userInfo.id + '/bookedbooks/' + booked_book_id);
 	starCountRef.remove();
+}
+
+function drawChart(){
+		
+      var data = new google.visualization.DataTable();
+      data.addColumn('string', 'Date');
+      data.addColumn('number', 'Users');
+	  var usersCount = 0;
+		var starCountRef1 = firebase.database().ref('users');
+		 starCountRef1.on('value', function(snapshot) {
+			snapshot.forEach(function(childSnapshot) {
+				usersCount++;
+			});
+		});
+		setTimeout(function(){
+		  var date = new Date(1523356189*1000);
+		  
+		  var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+		  
+		  var tempdate = date.getFullYear() + " " + months[date.getMonth()] + " " + date.getDate();
+		  
+		  
+		  data.addRows([
+			[tempdate, usersCount]
+		  ]);
+	
+      var options = {
+        hAxis: {
+          title: 'Date'
+        },
+        vAxis: {
+          title: 'Users'
+        },
+        backgroundColor: '#f1f8e9',
+		legend: {position: 'none'}
+      };
+
+      var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+      chart.draw(data, options);
+	  $.mobile.changePage("#showChart");
+		},500);
+	  		
 }
 
 function logOut(){
