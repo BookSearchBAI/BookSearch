@@ -92,7 +92,7 @@
 			    <div class="ui-block-a" style="width:25%;"></div>
 			    <div class="ui-block-b" style="width:50%;">
 					<button class="ui-btn ui-corner-all" data-transition="slidedown" onclick="userProfile()">MY PROFILE</button>
-					<button class="ui-btn ui-corner-all" data-transition="slidedown" onclick="">SEARCH BOOK ON THE MAP</button>
+					<button class="ui-btn ui-corner-all" data-transition="slidedown" onclick="lookupsetup()">SEARCH BOOK ON THE MAP</button>
 					<a href="#searchBook" class="ui-btn ui-corner-all" data-transition="slidedown">SEARCH BOOK ON THE LIST</a>
 					<a class="ui-btn ui-corner-all" data-transition="slidedown" href="#addBook">ADD YOUR BOOK</a>
 					<button class="ui-btn ui-corner-all" data-transition="slidedown" onclick="showFriends()">MY FRIENDS</button>
@@ -105,6 +105,20 @@
 			<h1>CHANGE WORLD THANKS TO YOUR HEART</h1>
     	</div>
     </div>
+	<!-- Map Activity -->
+	<div data-role="page" id="mapLookup">
+		<div data-role="header" class="ui-content">
+			<div id="library"></div>
+		</div>
+		<div data-role="main" class="ui-content">
+			<div class="ui-grid-b">
+				<div class="ui-block-a" style="width:25%;"></div>
+					<div class="ui-block-b" style="width:50%;">
+						<div id="lookmap"></div>
+					</div>
+			</div>
+		</div>
+	</div>
 	<!-- Add Book Activity-->
 	<div data-role="page" id="addBook">
 		<div data-role="header" class="ui-content">

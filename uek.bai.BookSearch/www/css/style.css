@@ -14,3 +14,7 @@ h1{
 }
 .ui-page { -webkit-backface-visibility: hidden; }
 #mapid { height: 180px; }
+
+.bookmap { height: 180px; width:180px; position: relative; right: 0px}
+
+#lookmap { height: 1000px; width: 1000px}

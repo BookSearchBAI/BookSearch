@@ -249,20 +249,43 @@ function searchBookOnTheList(){
 					var authors = "<li>" + "Authors: " + Object.values(childSnapshot.val().books)[0].authors + "</li>";
 					var page_count = "<li>" + "Pages: " + Object.values(childSnapshot.val().books)[0].page_count + "</li>";
 					var published_date = "<li>" + "Published date: " + Object.values(childSnapshot.val().books)[0].published_date + "</li>";
+					var isbn2 = "<li>" + "ISBN: " + Object.keys(childSnapshot.val().books)[0] + "</li>";
 					var price = "<li style=\"color:#ff0000;\">" + "Price: " + Object.values(childSnapshot.val().books)[0].price + "</li>";
-					var isbn = "11";
+					var book_map = "<div class=\"bookmap\" id=\""+ Object.values(childSnapshot.val().books)[0].price + "MAP" +"\">";
+					var coords = Object.values(childSnapshot.val().books)[0].location_ccords;
+					
+					
+					
 					var book_button = "<li><button class=\"ui-btn ui-corner-all\" onclick=\"bookTheBook(" + "'" + Object.keys(childSnapshot.val().books)[0] + "'" +"," + "'"+childSnapshot.key+"'" + ")\"" + ">BOOK IT</button></li>";
 					var add_friend_button = "<li><button class=\"ui-btn ui-corner-all\" onclick=\"addToFriend(" + "'"+childSnapshot.key+"'" + ")\"" + ">ADD TO FRIEND</button></li>";
 					$("#list1").append(user_name);
+					
+					
+					
+					
 					$("#list1").append(user_email);
 					$("#list1").append(mobile_number);
 					$("#list1").append(title);
 					$("#list1").append(authors);
 					$("#list1").append(page_count);
 					$("#list1").append(published_date);
+					$("#list1").append(isbn2);
 					$("#list1").append(price);
+					
+					$("#list1").append(book_map);
+					var bmap = L.map(Object.values(childSnapshot.val().books)[0].price + "MAP").setView([coords.split(" ")[0], coords.split(" ")[1]], 13);
+					L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+					attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+					maxZoom: 18,
+					id: 'mapbox.streets',
+					accessToken: 'pk.eyJ1Ijoia29rYTk1IiwiYSI6ImNqZ3pxcXFsaTJxbzQzM3F3MDBhYXhvY2YifQ.1BZrM4aZkhZuJgYBt1F-Ag'
+					}).addTo(bmap);
+					var marker = L.marker([coords.split(" ")[0], coords.split(" ")[1]]).addTo(bmap);
+					
 					$("#list1").append(book_button);
 					$("#list1").append(add_friend_button);
+					
+					
 				}
 			}
 			lengthOfTable++;
@@ -440,7 +463,7 @@ function geomanual() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(showPosition);
     } else {
-        x.innerHTML = "Geolocation is not supported by this browser.";
+        alert("Geolock failed");
     }
 	function showPosition(position) {
     var mymap = L.map('mapid').setView([position.coords.latitude, position.coords.longitude], 13);
@@ -456,5 +479,43 @@ mymap.on('click', function(e) {
 }
 }
 
-
+function lookupsetup()
+{
+	location.href = "#mapLookup";
+	if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else {
+        alert("Geolock failed");
+    }
+	function showPosition(position)
+	{
+		var lmap = L.map('lookmap').setView([position.coords.latitude, position.coords.longitude], 13);
+		L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+		attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+		maxZoom: 18,
+		id: 'mapbox.streets',
+		accessToken: 'pk.eyJ1Ijoia29rYTk1IiwiYSI6ImNqZ3pxcXFsaTJxbzQzM3F3MDBhYXhvY2YifQ.1BZrM4aZkhZuJgYBt1F-Ag'
+		}).addTo(lmap);
+		var starCountRef = firebase.database().ref('users');
+	 var bookSearchName = $("#searchBookName").val();
+	 starCountRef.on('value', function(snapshot) {
+		var lengthOfTable = 0;
+		$("ul[id=list1]").empty();
+		snapshot.forEach(function(childSnapshot) {			
+			if(childSnapshot.val().books!=null){
+				if(userInfo.id!=childSnapshot.key){
+					var title = "<li>" + "Title: " + Object.values(childSnapshot.val().books)[0].title + "</li>";
+					var coords = Object.values(childSnapshot.val().books)[0].location_ccords;
+					if(typeof coords != 'undefined'){
+					var mkr = L.marker([coords.split(" ")[0], coords.split(" ")[1]]).addTo(lmap);
+					mkr.bindPopup(title);
+					}
+				}
+			}
+			lengthOfTable++;
+		});
+	});
+	}
 	
+
+}
