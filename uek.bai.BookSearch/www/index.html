@@ -17,7 +17,10 @@
 	
 	<!--facebook connection import -->
 	
-	<link href="css/style.css" rel="stylesheet">
+	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="css/Style.min.css">
+	<link rel="stylesheet" href="css/Style_ex.css">
+	<link rel="stylesheet" href="css/jquery.mobile.icons.min.css">
 	<script src="https://www.gstatic.com/firebasejs/4.13.0/firebase.js"></script>
 	<script src="js/firebase_connection.js"></script>
 	<script src="js/main_functionality.js"></script>
@@ -56,7 +59,7 @@
 			</div>
 			<div class="ui-grid-solo">
     			<div class="ui-block-a">
-					<button class="ui-btn ui-corner-all" onclick="facebookSignIn()">CONTINUE WITH FACEBOOK</button><br>
+					<a data-role="button" class="my-button" style="color:white" onclick="facebookSignIn()">CONTINUE WITH FACEBOOK</a><br>
 				</div>
 			</div>
     	</div>
@@ -99,13 +102,13 @@
 			<div class="ui-grid-b">
 			    <div class="ui-block-a" style="width:25%;"></div>
 			    <div class="ui-block-b" style="width:50%;">
-					<button class="ui-btn ui-corner-all" data-transition="slidedown" onclick="userProfile()">MY PROFILE</button>
-					<button class="ui-btn ui-corner-all" data-transition="slidedown" onclick="lookupsetup()">SEARCH BOOK ON THE MAP</button>
-					<a href="#searchBook" class="ui-btn ui-corner-all" data-transition="slidedown">SEARCH BOOK ON THE LIST</a>
-					<a class="ui-btn ui-corner-all" data-transition="slidedown" href="#addBook">ADD YOUR BOOK</a>
-					<button class="ui-btn ui-corner-all" data-transition="slidedown" onclick="showFriends()">MY FRIENDS</button>
-					<button class="ui-btn ui-corner-all" data-transition="slidedown" onclick="drawChart()">SHOW CHART</button>
-					<button class="ui-btn ui-corner-all" onclick="logOut()">LOG OUT</button>	
+					<button class="ui-btn ui-corner-all ui-icon-user" data-transition="slidedown" onclick="userProfile()">MY PROFILE</button>
+					<button class="ui-btn ui-corner-all ui-icon-location" data-transition="slidedown" onclick="lookupsetup()">SEARCH BOOK ON THE MAP</button>
+					<a href="#searchBook" class="ui-btn ui-corner-all ui-icon-grid" data-transition="slidedown">SEARCH BOOK ON THE LIST</a>
+					<a class="ui-btn ui-corner-all ui-icon-plus" data-transition="slidedown" href="#addBook">ADD YOUR BOOK</a>
+					<button class="ui-btn ui-corner-all ui-icon-comment" data-transition="slidedown" onclick="showFriends()">MY FRIENDS</button>
+					<button class="ui-btn ui-corner-all ui-icon-check" data-transition="slidedown" onclick="drawChart()">SHOW CHART</button>
+					<button class="ui-btn ui-corner-all ui-icon-delete" onclick="logOut()">LOG OUT</button>	
 				</div>
 			    <div class="ui-block-c" style="width:25%;"></div>
 			</div>

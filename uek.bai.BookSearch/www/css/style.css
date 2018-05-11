@@ -18,3 +18,13 @@ h1{
 .bookmap { height: 180px; width:180px; position: relative; right: 0px}
 
 #lookmap { height: 1000px; width: 1000px}
+
+.my-button {
+	background-color: #3b5998 !important;
+	color: white;
+	
+}
+
+img {
+   padding:1px;
+   border:1px solid #021a40;
