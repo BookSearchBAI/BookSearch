@@ -1,5 +1,3 @@
-
-
 var userInfo={};
 var signup = false;
 var signin = false;
@@ -163,22 +161,26 @@ function addBookToDataBase(){
 	var price = $('#price').val();
 	var geoloc = $('#coords').val();
 	
-	var starCountRef = firebase.database().ref('users');
+	/*var starCountRef = firebase.database().ref('users');
 	var result = false;
 	 starCountRef.once('value', function(snapshot) {
 		snapshot.forEach(function(childSnapshot) {	
 			if(childSnapshot.val().books!=null){
-				if(isbn == Object.keys(childSnapshot.val().books)[0]){
-					result=true;
-					console.log(result);
+				var i = Object.keys(childSnapshot.val().books).length;;
+				console.log("length: " + i);
+				for(var j = 0; j<i; j++){
+					if(isbn == Object.keys(childSnapshot.val().books)[j]){//проходится только по одной книге фіксіть надо
+						result=true;
+						console.log(result);
+					}
 				}
 			}
 		});
-	});
+	});*/
 	
 	setTimeout(function(){
-		console.log("setout");
-		if(!result){
+		//console.log("setout");
+		//if(!result){
 			var rootRef = firebase.database().ref('users/'+ userInfo.id);
 			var newCarRef = rootRef.child('books/'+isbn);
 			newCarRef.set({
@@ -193,24 +195,32 @@ function addBookToDataBase(){
 			});
 			alert("Your book successfully added");
 			$.mobile.changePage("#mainMenu");
-		}else{
-			alert("The book already exist in database");
-		}
-	},1200);
+		//}else{
+			//alert("The book already exist in database");
+		//}
+	},1500);
 }
 
 function addedBooks(){
 	var starCountRef = firebase.database().ref('users/' + userInfo.id + '/books');
 	 starCountRef.on('value', function(snapshot) {
 		$("ul[id=list]").empty();
+		//alert("number of childs:" + snapshot.numChildren());
+		var childCount =0;
 		snapshot.forEach(function(childSnapshot) {
+			
 			var title = "<li>" + "Title: " + childSnapshot.val().title + "</li>";
 			var authors = "<li>" + "Authors: " + childSnapshot.val().authors + "</li>";
 			var pageCount = "<li>" + "Pages: " + childSnapshot.val().page_count + "</li>";
 			var published_date = "<li>" + "Published date: " + childSnapshot.val().published_date + "</li>";
 			var price = "<li style=\"color:#ff0000;\">" + "Price: " + childSnapshot.val().price + "</li>";
 			var mobile_number = "<li>" + "Mobile number: " + childSnapshot.val().mobile_number + "</li>";
-			var isbn = Object.keys(snapshot.val())[0];
+			var isbn;
+			if(childCount <  snapshot.numChildren()){
+				isbn = Object.keys(snapshot.val())[childCount];
+				childCount++;
+			}
+			
 			var delete_button = "<li><button class=\"ui-btn ui-corner-all\" onclick=\"deleteBook(" + isbn + ")\"" + ">DELETE BOOK</button></li>";
 			$("#list").append(title);
 			$("#list").append(authors);
@@ -222,19 +232,24 @@ function addedBooks(){
 			var book_status = childSnapshot.val().book_status;
 			if(book_status == "false"){
 				var delete_button = "<li><button class=\"ui-btn ui-corner-all\" onclick=\"deleteBook(" + isbn + ")\" disabled" + ">DELETE BOOK</button></li>";
-				var confirm_button = "<li><button class=\"ui-btn ui-corner-all\" onclick=\"confirmTransaction(" + isbn + ")\"" + ">CONFIRM TRANSACTION</button></li>";
+				//var confirm_button = "<li><button class=\"ui-btn ui-corner-all\" onclick=\"confirmTransaction(" + isbn + ")\"" + ">CONFIRM TRANSACTION</button></li>";
 				$("#list").append(delete_button);
-				$("#list").append(confirm_button);
+				//$("#list").append(confirm_button);
 				
 				var starCountRef1 = firebase.database().ref('users');
 				 starCountRef1.on('value', function(snapshot) {
 					snapshot.forEach(function(childSnapshot) {
 						console.log(childSnapshot.val());
 						if(childSnapshot.val().bookedbooks!=null){
-							console.log(isbn + " " + Object.keys(childSnapshot.val().bookedbooks)[0]);
-							if((isbn == Object.keys(childSnapshot.val().bookedbooks)[0]) && (userInfo.id!=childSnapshot.key)){
-								var cancel_button = "<li><button class=\"ui-btn ui-corner-all\" onclick=\"cancelTransaction(" + isbn + "," + "'"+childSnapshot.key+"'" + ")\"" + ">CANCEL TRANSACTION</button></li>";
-								$("#list").append(cancel_button);	
+							var i = Object.keys(childSnapshot.val().bookedbooks).length;
+							console.log(isbn + " " + Object.keys(childSnapshot.val().bookedbooks).length);
+							for(var j = 0; j<i; j++){
+								if((isbn == Object.keys(childSnapshot.val().bookedbooks)[j]) && (userInfo.id!=childSnapshot.key)){
+									var confirm_button = "<li><button class=\"ui-btn ui-corner-all\" onclick=\"confirmTransaction(" + isbn + ")\"" + ">CONFIRM TRANSACTION</button></li>";
+									$("#list").append(confirm_button);
+									var cancel_button = "<li><button class=\"ui-btn ui-corner-all\" onclick=\"cancelTransaction(" + isbn + "," + "'"+childSnapshot.key+"'" + ")\"" + ">CANCEL TRANSACTION</button></li>";
+									$("#list").append(cancel_button);	
+								}
 							}
 						}
 					});
@@ -248,7 +263,6 @@ function addedBooks(){
 }
 
 function deleteBook(isbn){
-
 	var starCountRef = firebase.database().ref('users/' + userInfo.id + '/books/' + isbn);
 	starCountRef.remove();
 }
@@ -266,12 +280,13 @@ function confirmTransaction(isbn){
 function cancelTransaction(isbn,friendID){
 	var starCountRef1 = firebase.database().ref('users/' + friendID + '/bookedbooks/' + isbn);
 	starCountRef1.remove();
-	var starCountRef = firebase.database().ref('users/' + userInfo.id + '/books/' + isbn);
-	starCountRef.update({
+	var starCountRef = firebase.database().ref('users/' + userInfo.id + '/books/' + isbn).update({
 		book_status: "true"
+	}).then(function(){
+		alert("Transakcja odrzucona,ksiazka jest ponownie dostepna dla innych osob");
+		$.mobile.changePage("#mainMenu");
 	});
-	alert("Transakcja odrzucona,ksiazka jest ponownie dostepna dla innych osob");
-	$.mobile.changePage("#mainMenu");
+	
 }
 
 
@@ -284,55 +299,55 @@ function searchBookOnTheList(){
 		snapshot.forEach(function(childSnapshot) {
 			
 			if(childSnapshot.val().books!=null){
-				
-				if((bookSearchName == Object.values(childSnapshot.val().books)[0].title) && (userInfo.id!=childSnapshot.key)){
-					var user_name = "<li>" + "Name: " + childSnapshot.val().username + "</li>";
-					var user_email = "<li>" + "Email: " + childSnapshot.val().email + "</li>";
-					var mobile_number = "<li>" + "Mobile number: " + Object.values(childSnapshot.val().books)[0].mobile_number + "</li>";
-					
-					var title = "<li>" + "Title: " + Object.values(childSnapshot.val().books)[0].title + "</li>";
-					var authors = "<li>" + "Authors: " + Object.values(childSnapshot.val().books)[0].authors + "</li>";
-					var page_count = "<li>" + "Pages: " + Object.values(childSnapshot.val().books)[0].page_count + "</li>";
-					var published_date = "<li>" + "Published date: " + Object.values(childSnapshot.val().books)[0].published_date + "</li>";
-					var isbn2 = "<li>" + "ISBN: " + Object.keys(childSnapshot.val().books)[0] + "</li>";
-					var price = "<li style=\"color:#ff0000;\">" + "Price: " + Object.values(childSnapshot.val().books)[0].price + "</li>";
+				var i = Object.keys(childSnapshot.val().books).length;
+		
+				for(var j = 0; j<i; j++){
+					//alert(Object.values(childSnapshot.val().books)[j]);
+					if((bookSearchName == Object.values(childSnapshot.val().books)[j].title) && (userInfo.id!=childSnapshot.key)){
+						var user_name = "<li>" + "Name: " + childSnapshot.val().username + "</li>";
+						var user_email = "<li>" + "Email: " + childSnapshot.val().email + "</li>";
+						var mobile_number = "<li>" + "Mobile number: " + Object.values(childSnapshot.val().books)[j].mobile_number + "</li>";
+						
+						var title = "<li>" + "Title: " + Object.values(childSnapshot.val().books)[j].title + "</li>";
+						var authors = "<li>" + "Authors: " + Object.values(childSnapshot.val().books)[j].authors + "</li>";
+						var page_count = "<li>" + "Pages: " + Object.values(childSnapshot.val().books)[j].page_count + "</li>";
+						var published_date = "<li>" + "Published date: " + Object.values(childSnapshot.val().books)[j].published_date + "</li>";
+						var isbn2 = "<li>" + "ISBN: " + Object.keys(childSnapshot.val().books)[j] + "</li>";
+						var price = "<li style=\"color:#ff0000;\">" + "Price: " + Object.values(childSnapshot.val().books)[j].price + "</li>";
 
-					var coords = Object.values(childSnapshot.val().books)[0].location_ccords;
-					var book_map = "<div class=\"bookmap\" id=\""+ Object.values(childSnapshot.val().books)[0].price + "MAP" +"\">";
-					var status_of_book = Object.values(childSnapshot.val().books)[0].book_status;
-					var book_button;
-					if(status_of_book=="true"){
-						book_button = "<li><button class=\"ui-btn ui-corner-all\" onclick=\"bookTheBook(" + "'" + Object.keys(childSnapshot.val().books)[0] + "'" +"," + "'"+childSnapshot.key+"'" + ")\"" + ">BOOK IT</button></li>";	
-					}else{
-						book_button = "<li><button class=\"ui-btn ui-corner-all\" onclick=\"bookTheBook(" + "'" + Object.keys(childSnapshot.val().books)[0] + "'" +"," + "'"+childSnapshot.key+"'" + ")\" disabled" + ">BOOK IT</button></li>";	
+						var coords = Object.values(childSnapshot.val().books)[j].location_ccords;
+						var book_map = "<div class=\"bookmap\" id=\""+ Object.values(childSnapshot.val().books)[j].price + "MAP" +"\">";
+						var status_of_book = Object.values(childSnapshot.val().books)[j].book_status;
+						var book_button;
+						alert(Object.keys(childSnapshot.val().books)[j] + " in search book + wlascieciel ksiazki: " + childSnapshot.key);
+						if(status_of_book=="true"){
+							book_button = "<li><button class=\"ui-btn ui-corner-all\" onclick=\"bookTheBook(" + "'" + Object.keys(childSnapshot.val().books)[j] + "'" +"," + "'"+childSnapshot.key+"'" + ")\"" + ">BOOK IT</button></li>";	
+						}else{
+							book_button = "<li><button class=\"ui-btn ui-corner-all\" onclick=\"bookTheBook(" + "'" + Object.keys(childSnapshot.val().books)[j] + "'" +"," + "'"+childSnapshot.key+"'" + ")\" disabled" + ">BOOK IT</button></li>";	
+						}
+						var add_friend_button = "<li><button class=\"ui-btn ui-corner-all\" onclick=\"addToFriend(" + "'"+childSnapshot.key+"'" + ")\"" + ">ADD TO FRIEND</button></li>";
+						$("#list1").append(user_name);
+						$("#list1").append(user_email);
+						$("#list1").append(mobile_number);
+						$("#list1").append(title);
+						$("#list1").append(authors);
+						$("#list1").append(page_count);
+						$("#list1").append(published_date);
+						$("#list1").append(isbn2);
+						$("#list1").append(price);
+						
+						$("#list1").append(book_map);
+						var bmap = L.map(Object.values(childSnapshot.val().books)[j].price + "MAP").setView([coords.split(" ")[0], coords.split(" ")[1]], 13);
+						L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+						attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+						maxZoom: 18,
+						id: 'mapbox.streets',
+						accessToken: 'pk.eyJ1Ijoia29rYTk1IiwiYSI6ImNqZ3pxcXFsaTJxbzQzM3F3MDBhYXhvY2YifQ.1BZrM4aZkhZuJgYBt1F-Ag'
+						}).addTo(bmap);
+						var marker = L.marker([coords.split(" ")[0], coords.split(" ")[1]]).addTo(bmap);
+						$("#list1").append(book_button);
+						$("#list1").append(add_friend_button);
 					}
-					var add_friend_button = "<li><button class=\"ui-btn ui-corner-all\" onclick=\"addToFriend(" + "'"+childSnapshot.key+"'" + ")\"" + ">ADD TO FRIEND</button></li>";
-					$("#list1").append(user_name);
-					
-					
-					
-					
-					$("#list1").append(user_email);
-					$("#list1").append(mobile_number);
-					$("#list1").append(title);
-					$("#list1").append(authors);
-					$("#list1").append(page_count);
-					$("#list1").append(published_date);
-					$("#list1").append(isbn2);
-					$("#list1").append(price);
-					
-					$("#list1").append(book_map);
-					var bmap = L.map(Object.values(childSnapshot.val().books)[0].price + "MAP").setView([coords.split(" ")[0], coords.split(" ")[1]], 13);
-					L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
-					attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-					maxZoom: 18,
-					id: 'mapbox.streets',
-					accessToken: 'pk.eyJ1Ijoia29rYTk1IiwiYSI6ImNqZ3pxcXFsaTJxbzQzM3F3MDBhYXhvY2YifQ.1BZrM4aZkhZuJgYBt1F-Ag'
-					}).addTo(bmap);
-					var marker = L.marker([coords.split(" ")[0], coords.split(" ")[1]]).addTo(bmap);
-					
-					$("#list1").append(book_button);
-					$("#list1").append(add_friend_button);
 					
 					
 				}
@@ -396,7 +411,7 @@ function bookTheBook(isbn,ownerID){
 			price: book_price,
 			published_date: book_published_date	
 		});
-	},200);
+	},1000);
 	
 }
 
@@ -453,31 +468,38 @@ function deleteFriend(friend_id){
 }
 
 function bookedBooks(){
-	var starCountRef = firebase.database().ref('users/' + userInfo.id + '/bookedbooks');
+	var starCountRef = firebase.database().ref('users/' + userInfo.id);
 	 starCountRef.on('value', function(snapshot) {
 		$("ul[id=list3]").empty();
-		snapshot.forEach(function(childSnapshot) {
-			var owner_name = "<li>" + "Owner name: " + childSnapshot.val().owner_name + "</li>";
-			var owner_email = "<li>" + "Owner email: " + childSnapshot.val().owner_email + "</li>";
-			var owner_mobile_number = "<li>" + "Owner mobile number: " + childSnapshot.val().owner_mobile + "</li>";
-			var title = "<li>" + "Title: " + childSnapshot.val().title + "</li>";
-			var authors = "<li>" + "Authors: " + childSnapshot.val().authors + "</li>";
-			var pageCount = "<li>" + "Pages: " + childSnapshot.val().page_count + "</li>";
-			var published_date = "<li>" + "Published date: " + childSnapshot.val().published_date + "</li>";
-			var price = "<li style=\"color:#ff0000;\">" + "Price: " + childSnapshot.val().price + "</li>";
-			var isbn = Object.keys(snapshot.val())[0];
-			//var delete_button = "<li><button class=\"ui-btn ui-corner-all\" onclick=\"deleteBookedBook(" + isbn + ")\"" + ">DELETE BOOKED BOOK</button></li>";
-			$("#list3").append(owner_name);
-			$("#list3").append(owner_email);
-			$("#list3").append(owner_mobile_number);
-			$("#list3").append(title);
-			$("#list3").append(authors);
-			$("#list3").append(pageCount);
-			$("#list3").append(published_date);
-			$("#list3").append(price);
-			//$("#list3").append(delete_button);
+		var i = Object.keys(snapshot.val().bookedbooks).length;
+			if(Object.values(snapshot.val().bookedbooks)!=null){
+				var i = Object.keys(snapshot.val().bookedbooks).length;
+				for(var j = 0; j<i; j++){
+					var owner_name = "<li>" + "Owner name: " + Object.values(snapshot.val().bookedbooks)[j].owner_name + "</li>";
+					var owner_email = "<li>" + "Owner email: " + Object.values(snapshot.val().bookedbooks)[j].owner_email + "</li>";
+					var owner_mobile_number = "<li>" + "Owner mobile number: " + Object.values(snapshot.val().bookedbooks)[j].owner_mobile + "</li>";
+					var title = "<li>" + "Title: " + Object.values(snapshot.val().bookedbooks)[j].title + "</li>";
+					var authors = "<li>" + "Authors: " + Object.values(snapshot.val().bookedbooks)[j].authors + "</li>";
+					var pageCount = "<li>" + "Pages: " + Object.values(snapshot.val().bookedbooks)[j].page_count + "</li>";
+					var published_date = "<li>" + "Published date: " + Object.values(snapshot.val().bookedbooks)[j].published_date + "</li>";
+					var price = "<li style=\"color:#ff0000;\">" + "Price: " + Object.values(snapshot.val().bookedbooks)[j].price + "</li>";
+					//var isbn = Object.keys(snapshot.val())[0];
+					//var isbn = Object.keys(snapshot.val().bookedbook)[j];
+					
+					//var delete_button = "<li><button class=\"ui-btn ui-corner-all\" onclick=\"deleteBookedBook(" + isbn + ")\"" + ">DELETE BOOKED BOOK</button></li>";
+					$("#list3").append(owner_name);
+					$("#list3").append(owner_email);
+					$("#list3").append(owner_mobile_number);
+					$("#list3").append(title);
+					$("#list3").append(authors);
+					$("#list3").append(pageCount);
+					$("#list3").append(published_date);
+					$("#list3").append(price);
+					//$("#list3").append(delete_button);
+				}
+			}
 		});
-	});
+	
 	
 	$.mobile.changePage("#bookedBooks");
 	
@@ -501,7 +523,7 @@ function drawChart(){
 			});
 		});
 		setTimeout(function(){
-		  var date = new Date(1523356189*1000);
+		  var date = new Date();
 		  
 		  var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 		  
@@ -526,7 +548,7 @@ function drawChart(){
       var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
       chart.draw(data, options);
 	  $.mobile.changePage("#showChart");
-		},500);
+		},900);
 	  		
 }
 
