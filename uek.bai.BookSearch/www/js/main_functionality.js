@@ -319,7 +319,7 @@ function searchBookOnTheList(){
 						var book_map = "<div class=\"bookmap\" id=\""+ Object.values(childSnapshot.val().books)[j].price + "MAP" +"\">";
 						var status_of_book = Object.values(childSnapshot.val().books)[j].book_status;
 						var book_button;
-						alert(Object.keys(childSnapshot.val().books)[j] + " in search book + wlascieciel ksiazki: " + childSnapshot.key);
+						//alert(Object.keys(childSnapshot.val().books)[j] + " in search book + wlascieciel ksiazki: " + childSnapshot.key);
 						if(status_of_book=="true"){
 							book_button = "<li><button class=\"ui-btn ui-corner-all\" onclick=\"bookTheBook(" + "'" + Object.keys(childSnapshot.val().books)[j] + "'" +"," + "'"+childSnapshot.key+"'" + ")\"" + ">BOOK IT</button></li>";	
 						}else{
@@ -435,6 +435,8 @@ function addToFriend(friendID){
 			photo_url: photoURL
 		});
 	},200);
+	
+	alert("Friend was successfully added");
 }
 
 function showFriends(){
