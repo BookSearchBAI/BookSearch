@@ -22,4 +22,5 @@
 	</universal-links>
 	<preference name="AndroidLaunchMode" value="singleTask" />-->
   <feature name="http://api.phonegap.com/1.0/network"/>
+  <gap:plugin name="cordova-plugin-whitelist" source="npm" />
 </widget>
