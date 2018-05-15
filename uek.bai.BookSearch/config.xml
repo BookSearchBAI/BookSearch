@@ -9,7 +9,6 @@
     <plugin name="cordova-plugin-device" spec="2.0.1" />
     <plugin name="cordova-plugin-dialogs" spec="2.0.1" />
     <feature name="http://api.phonegap.com/1.0/network" />
-    <feature name="http://api.phonegap.com/1.0/geolocation" />
     <gap:plugin name="cordova-plugin-whitelist" source="npm" />
     <plugin name="cordova-plugin-geolocation" spec="~4.0.1" />
 </widget>
