@@ -2,7 +2,7 @@ var userInfo={};
 var signup = false;
 var signin = false;
 var signinFB = false;
-		
+
 firebase.auth().getRedirectResult().then(function(result) {
 	if (result.credential) {
 		signinFB = true;
@@ -22,8 +22,8 @@ firebase.auth().getRedirectResult().then(function(result) {
 	}
 	firebase.auth().signOut();
 });
-	  
-firebase.auth().onAuthStateChanged(function(user) {			
+
+firebase.auth().onAuthStateChanged(function(user) {
 	  if (user) {
 		  if(signin==true){
 			 $("#userName").text(user.displayName);
@@ -86,7 +86,7 @@ firebase.auth().onAuthStateChanged(function(user) {
 		  firebase.auth().signOut();
 	  }
 });
-		
+
 function addUserToDataBase(name,email,userId,photo_url){
 	var rootRef = firebase.database().ref('users/'+userId).set({
 		username: name,
@@ -94,7 +94,7 @@ function addUserToDataBase(name,email,userId,photo_url){
 		photo_url: photo_url
 	});
 }
-		
+
 function signUp(){
 	signup=true;
 	firebase.auth().createUserWithEmailAndPassword($("#signUpEmail").val(), $("#signUpPassword").val()).catch(function(error) {
@@ -151,7 +151,7 @@ function checkISBN(){
 
 
 function addBookToDataBase(){
-	
+
 	var title = $("#title").val();
 	var authors = $("#authors").val();
 	var publishedDate = $("#publishedDate").val();
@@ -160,11 +160,11 @@ function addBookToDataBase(){
 	var mobilenumber = $('#mobilenumber').val();
 	var price = $('#price').val();
 	var geoloc = $('#coords').val();
-	
+
 	/*var starCountRef = firebase.database().ref('users');
 	var result = false;
 	 starCountRef.once('value', function(snapshot) {
-		snapshot.forEach(function(childSnapshot) {	
+		snapshot.forEach(function(childSnapshot) {
 			if(childSnapshot.val().books!=null){
 				var i = Object.keys(childSnapshot.val().books).length;;
 				console.log("length: " + i);
@@ -177,7 +177,7 @@ function addBookToDataBase(){
 			}
 		});
 	});*/
-	
+
 	setTimeout(function(){
 		//console.log("setout");
 		//if(!result){
@@ -208,7 +208,7 @@ function addedBooks(){
 		//alert("number of childs:" + snapshot.numChildren());
 		var childCount =0;
 		snapshot.forEach(function(childSnapshot) {
-			
+
 			var title = "<li>" + "Title: " + childSnapshot.val().title + "</li>";
 			var authors = "<li>" + "Authors: " + childSnapshot.val().authors + "</li>";
 			var pageCount = "<li>" + "Pages: " + childSnapshot.val().page_count + "</li>";
@@ -220,7 +220,7 @@ function addedBooks(){
 				isbn = Object.keys(snapshot.val())[childCount];
 				childCount++;
 			}
-			
+
 			var delete_button = "<li><button class=\"ui-btn ui-corner-all\" onclick=\"deleteBook(" + isbn + ")\"" + ">DELETE BOOK</button></li>";
 			$("#list").append(title);
 			$("#list").append(authors);
@@ -228,14 +228,14 @@ function addedBooks(){
 			$("#list").append(published_date);
 			$("#list").append(price);
 			$("#list").append(mobile_number);
-			
+
 			var book_status = childSnapshot.val().book_status;
 			if(book_status == "false"){
 				var delete_button = "<li><button class=\"ui-btn ui-corner-all\" onclick=\"deleteBook(" + isbn + ")\" disabled" + ">DELETE BOOK</button></li>";
 				//var confirm_button = "<li><button class=\"ui-btn ui-corner-all\" onclick=\"confirmTransaction(" + isbn + ")\"" + ">CONFIRM TRANSACTION</button></li>";
 				$("#list").append(delete_button);
 				//$("#list").append(confirm_button);
-				
+
 				var starCountRef1 = firebase.database().ref('users');
 				 starCountRef1.on('value', function(snapshot) {
 					snapshot.forEach(function(childSnapshot) {
@@ -248,7 +248,7 @@ function addedBooks(){
 									var confirm_button = "<li><button class=\"ui-btn ui-corner-all\" onclick=\"confirmTransaction(" + isbn + ")\"" + ">CONFIRM TRANSACTION</button></li>";
 									$("#list").append(confirm_button);
 									var cancel_button = "<li><button class=\"ui-btn ui-corner-all\" onclick=\"cancelTransaction(" + isbn + "," + "'"+childSnapshot.key+"'" + ")\"" + ">CANCEL TRANSACTION</button></li>";
-									$("#list").append(cancel_button);	
+									$("#list").append(cancel_button);
 								}
 							}
 						}
@@ -286,7 +286,7 @@ function cancelTransaction(isbn,friendID){
 		alert("Transakcja odrzucona,ksiazka jest ponownie dostepna dla innych osob");
 		$.mobile.changePage("#mainMenu");
 	});
-	
+
 }
 
 
@@ -297,17 +297,17 @@ function searchBookOnTheList(){
 		var lengthOfTable = 0;
 		$("ul[id=list1]").empty();
 		snapshot.forEach(function(childSnapshot) {
-			
+
 			if(childSnapshot.val().books!=null){
 				var i = Object.keys(childSnapshot.val().books).length;
-		
+
 				for(var j = 0; j<i; j++){
 					//alert(Object.values(childSnapshot.val().books)[j]);
 					if((bookSearchName == Object.values(childSnapshot.val().books)[j].title) && (userInfo.id!=childSnapshot.key)){
 						var user_name = "<li>" + "Name: " + childSnapshot.val().username + "</li>";
 						var user_email = "<li>" + "Email: " + childSnapshot.val().email + "</li>";
 						var mobile_number = "<li>" + "Mobile number: " + Object.values(childSnapshot.val().books)[j].mobile_number + "</li>";
-						
+
 						var title = "<li>" + "Title: " + Object.values(childSnapshot.val().books)[j].title + "</li>";
 						var authors = "<li>" + "Authors: " + Object.values(childSnapshot.val().books)[j].authors + "</li>";
 						var page_count = "<li>" + "Pages: " + Object.values(childSnapshot.val().books)[j].page_count + "</li>";
@@ -321,9 +321,9 @@ function searchBookOnTheList(){
 						var book_button;
 						//alert(Object.keys(childSnapshot.val().books)[j] + " in search book + wlascieciel ksiazki: " + childSnapshot.key);
 						if(status_of_book=="true"){
-							book_button = "<li><button class=\"ui-btn ui-corner-all\" onclick=\"bookTheBook(" + "'" + Object.keys(childSnapshot.val().books)[j] + "'" +"," + "'"+childSnapshot.key+"'" + ")\"" + ">BOOK IT</button></li>";	
+							book_button = "<li><button class=\"ui-btn ui-corner-all\" onclick=\"bookTheBook(" + "'" + Object.keys(childSnapshot.val().books)[j] + "'" +"," + "'"+childSnapshot.key+"'" + ")\"" + ">BOOK IT</button></li>";
 						}else{
-							book_button = "<li><button class=\"ui-btn ui-corner-all\" onclick=\"bookTheBook(" + "'" + Object.keys(childSnapshot.val().books)[j] + "'" +"," + "'"+childSnapshot.key+"'" + ")\" disabled" + ">BOOK IT</button></li>";	
+							book_button = "<li><button class=\"ui-btn ui-corner-all\" onclick=\"bookTheBook(" + "'" + Object.keys(childSnapshot.val().books)[j] + "'" +"," + "'"+childSnapshot.key+"'" + ")\" disabled" + ">BOOK IT</button></li>";
 						}
 						var add_friend_button = "<li><button class=\"ui-btn ui-corner-all\" onclick=\"addToFriend(" + "'"+childSnapshot.key+"'" + ")\"" + ">ADD TO FRIEND</button></li>";
 						$("#list1").append(user_name);
@@ -335,7 +335,7 @@ function searchBookOnTheList(){
 						$("#list1").append(published_date);
 						$("#list1").append(isbn2);
 						$("#list1").append(price);
-						
+
 						$("#list1").append(book_map);
 						var bmap = L.map(Object.values(childSnapshot.val().books)[j].price + "MAP").setView([coords.split(" ")[0], coords.split(" ")[1]], 13);
 						L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
@@ -344,27 +344,27 @@ function searchBookOnTheList(){
 						id: 'mapbox.streets',
 						accessToken: 'pk.eyJ1Ijoia29rYTk1IiwiYSI6ImNqZ3pxcXFsaTJxbzQzM3F3MDBhYXhvY2YifQ.1BZrM4aZkhZuJgYBt1F-Ag'
 						}).addTo(bmap);
-						var marker = L.marker([coords.split(" ")[0], coords.split(" ")[1]]).addTo(bmap);
+						var marker = L.marker([coords.split(" ")[0], coords.split(" ")[1]], {icon: stdmarker}).addTo(bmap);
 						$("#list1").append(book_button);
 						$("#list1").append(add_friend_button);
 					}
-					
-					
+
+
 				}
 			}
 			lengthOfTable++;
 		});
 	});
-	
+
 	/*$.get( "https://booksearch-79aa4.firebaseio.com/users.json", function( data ) {
-		
+
 	});*/
 
-		
+
 }
 
 function bookTheBook(isbn,ownerID){
-	
+
 	var owner_name;
 	var owner_email;
 	var owner_mobile;
@@ -374,7 +374,7 @@ function bookTheBook(isbn,ownerID){
 	var book_page_count;
 	var book_price;
 	var book_published_date;
-	
+
 	var ownerid = firebase.database().ref('users/' + ownerID);
 	ownerid.once("value").then(function(snapshot) {
 		var owner = snapshot.val();
@@ -382,7 +382,7 @@ function bookTheBook(isbn,ownerID){
 		owner_email = owner.email;
 		owner_id = snapshot.key
 	});
-	
+
 	var bookid = firebase.database().ref('users/' + ownerID + '/books/' + isbn);
 	bookid.once("value").then(function(snapshot) {
 		bookid.update({
@@ -394,10 +394,10 @@ function bookTheBook(isbn,ownerID){
 			book_authors = ownersbook.authors;
 			book_page_count = ownersbook.page_count;
 			book_price = ownersbook.price;
-			book_published_date = ownersbook.published_date;	
+			book_published_date = ownersbook.published_date;
 		});
 	});
-	
+
 	setTimeout(function(){
 		var rootRef = firebase.database().ref('users/' + userInfo.id);
 		var newCarRef = rootRef.child('bookedbooks/' + isbn).set({
@@ -409,10 +409,10 @@ function bookTheBook(isbn,ownerID){
 			authors:book_authors,
 			page_count: book_page_count,
 			price: book_price,
-			published_date: book_published_date	
+			published_date: book_published_date
 		});
 	},1000);
-	
+
 }
 
 function addToFriend(friendID){
@@ -426,7 +426,7 @@ function addToFriend(friendID){
 		user_email = user.email;
 		photoURL = user.photo_url;
 	});
-	
+
 	setTimeout(function(){
 		var rootRef = firebase.database().ref('users/' + userInfo.id);
 		var newCarRef = rootRef.child('friends/' + friendID).set({
@@ -435,7 +435,7 @@ function addToFriend(friendID){
 			photo_url: photoURL
 		});
 	},200);
-	
+
 	alert("Friend was successfully added");
 }
 
@@ -444,11 +444,11 @@ function showFriends(){
 	 starCountRef.on('value', function(snapshot) {
 		$("ul[id=list2]").empty();
 		snapshot.forEach(function(childSnapshot) {
-			
+
 			var friend_photo = "<li style='float:left;'>" + "<img src='" + childSnapshot.val().photo_url + "' width='100' height='100' </img>" + "</li>";
 			var friend_name = "<li>" + "Name: " + childSnapshot.val().username + "</li>";
 			var friend_email = "<li>" + "Email: " + childSnapshot.val().email + "</li>";
-			
+
 
 			var friend_id = childSnapshot.key;
 			var delete_button = "<li><button class=\"ui-btn ui-corner-all\" onclick=\"deleteFriend(" + "'" + friend_id + "'" + ")\"" + ">DELETE FRIEND</button></li>";
@@ -460,7 +460,7 @@ function showFriends(){
 			//console.log(childSnapshot.val());
 		});
 	});
-	
+
 	$.mobile.changePage("#showFriends");
 }
 
@@ -487,7 +487,7 @@ function bookedBooks(){
 					var price = "<li style=\"color:#ff0000;\">" + "Price: " + Object.values(snapshot.val().bookedbooks)[j].price + "</li>";
 					//var isbn = Object.keys(snapshot.val())[0];
 					//var isbn = Object.keys(snapshot.val().bookedbook)[j];
-					
+
 					//var delete_button = "<li><button class=\"ui-btn ui-corner-all\" onclick=\"deleteBookedBook(" + isbn + ")\"" + ">DELETE BOOKED BOOK</button></li>";
 					$("#list3").append(owner_name);
 					$("#list3").append(owner_email);
@@ -501,10 +501,10 @@ function bookedBooks(){
 				}
 			}
 		});
-	
-	
+
+
 	$.mobile.changePage("#bookedBooks");
-	
+
 }
 
 function deleteBookedBook(booked_book_id){
@@ -513,7 +513,7 @@ function deleteBookedBook(booked_book_id){
 }
 
 function drawChart(){
-		
+
       var data = new google.visualization.DataTable();
       data.addColumn('string', 'Date');
       data.addColumn('number', 'Users');
@@ -526,16 +526,16 @@ function drawChart(){
 		});
 		setTimeout(function(){
 		  var date = new Date();
-		  
+
 		  var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-		  
+
 		  var tempdate = date.getFullYear() + " " + months[date.getMonth()] + " " + date.getDate();
-		  
-		  
+
+
 		  data.addRows([
 			[tempdate, usersCount]
 		  ]);
-	
+
       var options = {
         hAxis: {
           title: 'Date'
@@ -551,7 +551,7 @@ function drawChart(){
       chart.draw(data, options);
 	  $.mobile.changePage("#showChart");
 		},900);
-	  		
+
 }
 
 function logOut(){
@@ -569,6 +569,16 @@ function currentUser(){
 	  alert("noone");
 	}
 }
+
+var stdmarker = L.icon({
+    iconUrl: 'img/marker-icon.png',
+
+    iconSize:     [38, 95], // size of the icon
+    iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+    shadowAnchor: [4, 62],  // the same for the shadow
+    popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+});
+
 
 function geofetch() {
     if (navigator.geolocation) {
@@ -623,13 +633,13 @@ function lookupsetup()
 	 starCountRef.on('value', function(snapshot) {
 		var lengthOfTable = 0;
 		$("ul[id=list1]").empty();
-		snapshot.forEach(function(childSnapshot) {			
+		snapshot.forEach(function(childSnapshot) {
 			if(childSnapshot.val().books!=null){
 				if(userInfo.id!=childSnapshot.key){
 					var title = "<li>" + "Title: " + Object.values(childSnapshot.val().books)[0].title + "</li>";
 					var coords = Object.values(childSnapshot.val().books)[0].location_ccords;
 					if(typeof coords != 'undefined'){
-					var mkr = L.marker([coords.split(" ")[0], coords.split(" ")[1]]).addTo(lmap);
+					var mkr = L.marker([coords.split(" ")[0], coords.split(" ")[1]], {icon: stdmarker}).addTo(lmap);
 					mkr.bindPopup(title);
 					}
 				}
@@ -638,6 +648,6 @@ function lookupsetup()
 		});
 	});
 	}
-	
+
 
 }
