@@ -1,27 +1,15 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-    <widget xmlns   = "http://www.w3.org/ns/widgets"
-        xmlns:gap   = "http://phonegap.com/ns/1.0"
-		id          = "book_search"
-        version     = "1.0.0" >
-
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="book_search" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
     <name>Book Search</name>
     <description>Book Search</description>
-    <author href="http://vegas-pro.ucoz.ua" email="krupayaroslav@gmail.com">
+    <author email="krupayaroslav@gmail.com" href="http://vegas-pro.ucoz.ua">
 		John Brown
 	</author>
-
-	<platform name="android" />
-	<plugin name="cordova-plugin-device" spec="2.0.1" />
-	<plugin name="cordova-plugin-dialogs" spec="2.0.1" />
-	<!--<plugin name="cordova-plugin-firebase" spec="^1.0.0" />
-	<universal-links>
-		<host name="https://zr253.app.goo.gl" scheme="https" />
-	    <host name="booksearch-79aa4.firebaseapp.com" scheme="https">
-	        <path url="/__/auth/callback"/>
-	    </host>
-	</universal-links>
-	<preference name="AndroidLaunchMode" value="singleTask" />-->
-  <feature name="http://api.phonegap.com/1.0/network"/>
-      <feature name="http://api.phonegap.com/1.0/geolocation"/>
-  <gap:plugin name="cordova-plugin-whitelist" source="npm" />
+    <platform name="android" />
+    <plugin name="cordova-plugin-device" spec="2.0.1" />
+    <plugin name="cordova-plugin-dialogs" spec="2.0.1" />
+    <feature name="http://api.phonegap.com/1.0/network" />
+    <feature name="http://api.phonegap.com/1.0/geolocation" />
+    <gap:plugin name="cordova-plugin-whitelist" source="npm" />
+    <plugin name="cordova-plugin-geolocation" spec="~4.0.1" />
 </widget>
