@@ -473,7 +473,7 @@ function bookedBooks(){
 	var starCountRef = firebase.database().ref('users/' + userInfo.id);
 	 starCountRef.on('value', function(snapshot) {
 		$("ul[id=list3]").empty();
-		var i = Object.keys(snapshot.val().bookedbooks).length;
+		//var i = Object.keys(snapshot.val().bookedbooks).length;
 			if(Object.values(snapshot.val().bookedbooks)!=null){
 				var i = Object.keys(snapshot.val().bookedbooks).length;
 				for(var j = 0; j<i; j++){
@@ -619,6 +619,7 @@ function lookupsetup()
     } else {
         alert("Geolock failed");
     }
+
 	function showPosition(position)
 	{
 		var lmap = L.map('lookmap').setView([position.coords.latitude, position.coords.longitude], 13);
@@ -632,15 +633,18 @@ function lookupsetup()
 	 var bookSearchName = $("#searchBookName").val();
 	 starCountRef.on('value', function(snapshot) {
 		var lengthOfTable = 0;
-		$("ul[id=list1]").empty();
+		//$("ul[id=list1]").empty();
 		snapshot.forEach(function(childSnapshot) {
 			if(childSnapshot.val().books!=null){
 				if(userInfo.id!=childSnapshot.key){
-					var title = "<li>" + "Title: " + Object.values(childSnapshot.val().books)[0].title + "</li>";
-					var coords = Object.values(childSnapshot.val().books)[0].location_ccords;
-					if(typeof coords != 'undefined'){
-					var mkr = L.marker([coords.split(" ")[0], coords.split(" ")[1]], {icon: stdmarker}).addTo(lmap);
-					mkr.bindPopup(title);
+					var i = Object.keys(childSnapshot.val().books).length;
+					for(var j = 0; j<i; j++){
+						var title = "<li>" + "Title: " + Object.values(childSnapshot.val().books)[j].title + "</li>";
+						var coords = Object.values(childSnapshot.val().books)[j].location_ccords;
+						if(typeof coords != 'undefined'){
+							var mkr = L.marker([coords.split(" ")[0], coords.split(" ")[1]], {icon: stdmarker}).addTo(lmap);
+							mkr.bindPopup(title);
+						}
 					}
 				}
 			}
@@ -648,6 +652,15 @@ function lookupsetup()
 		});
 	});
 	}
+}
 
 
+
+
+function goToAddBook(){
+	$.mobile.changePage("#addBook");
+}
+
+function goToSearchBook(){
+	$.mobile.changePage("#searchBook");
 }

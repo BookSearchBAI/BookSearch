@@ -99,18 +99,16 @@
 		</div>
     	<div data-role="main" class="ui-content">
 			<h1 style="text-align:center;">HELLO IN THE BOOKSEARCH</h1>
-			<div class="ui-grid-b">
-			    <div class="ui-block-a" style="width:25%;"></div>
-			    <div class="ui-block-b" style="width:50%;">
+			<div class="ui-grid-solo">
+    			<div class="ui-block-a">
 					<button class="ui-btn ui-corner-all ui-icon-user" data-transition="slidedown" onclick="userProfile()">MY PROFILE</button>
 					<button class="ui-btn ui-corner-all ui-icon-location" data-transition="slidedown" onclick="lookupsetup()">SEARCH BOOK ON THE MAP</button>
-					<a href="#searchBook" class="ui-btn ui-corner-all ui-icon-grid" data-transition="slidedown">SEARCH BOOK ON THE LIST</a>
-					<a class="ui-btn ui-corner-all ui-icon-plus" data-transition="slidedown" href="#addBook">ADD YOUR BOOK</a>
+					<button class="ui-btn ui-corner-all ui-icon-grid" data-transition="slidedown" onclick="goToSearchBook()">SEARCH BOOK ON THE LIST</button>
+					<button class="ui-btn ui-corner-all ui-icon-plus" data-transition="slidedown" onclick="goToAddBook()">ADD YOUR BOOK</button>
 					<button class="ui-btn ui-corner-all ui-icon-comment" data-transition="slidedown" onclick="showFriends()">MY FRIENDS</button>
 					<button class="ui-btn ui-corner-all ui-icon-check" data-transition="slidedown" onclick="drawChart()">SHOW CHART</button>
 					<button class="ui-btn ui-corner-all ui-icon-delete" onclick="logOut()">LOG OUT</button>
 				</div>
-			    <div class="ui-block-c" style="width:25%;"></div>
 			</div>
     	</div>
 		<div data-role="footer" class="ui-content">
@@ -123,11 +121,10 @@
 			<div id="library"></div>
 		</div>
 		<div data-role="main" class="ui-content">
-			<div class="ui-grid-b">
-				<div class="ui-block-a" style="width:25%;"></div>
-					<div class="ui-block-b" style="width:50%;">
-						<div id="lookmap"></div>
-					</div>
+			<div class="ui-grid-solo">
+    			<div class="ui-block-a">
+					<div id="lookmap"></div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -137,9 +134,8 @@
 			<div id="library"></div>
 		</div>
     	<div data-role="main" class="ui-content">
-			<div class="ui-grid-b">
-			    <div class="ui-block-a" style="width:25%;"></div>
-			    <div class="ui-block-b" style="width:50%;">
+			<div class="ui-grid-solo">
+    			<div class="ui-block-a">
 					<label for="isbn">ISBN:</label>
 					<input id="isbn" type="text" data-clear-btn="true">
 					<button class="ui-btn ui-corner-all" onclick="checkISBN()">Check it</button>
@@ -155,7 +151,6 @@
 					 <div id="mapid"></div>
 					<button class="ui-btn ui-corner-all" id="addBookButton" onclick="addBookToDataBase()" disabled>Add book</button>
 				</div>
-			    <div class="ui-block-c" style="width:25%;"></div>
 			</div>
     	</div>
 		<div data-role="footer" class="ui-content">
@@ -168,14 +163,12 @@
 			<div id="library"></div>
 		</div>
     	<div data-role="main" class="ui-content">
-			<div class="ui-grid-b">
-			    <div class="ui-block-a" style="width:25%;"></div>
-			    <div id="lista" class="ui-block-b" style="width:50%;">
+			<div class="ui-grid-solo">
+    			<div class="ui-block-a">
 					<ul id='list' data-role='listview' data-inset='true'>
 					</ul>
 				</div>
-			    <div class="ui-block-c" style="width:25%;"></div>
-			</div>
+    		</div>
     	</div>
 		<div data-role="footer" class="ui-content">
 			<h1>CHANGE WORLD THANKS TO YOUR HEART</h1>
@@ -187,13 +180,11 @@
 			<div id="library"></div>
 		</div>
     	<div data-role="main" class="ui-content">
-			<div class="ui-grid-b">
-			    <div class="ui-block-a" style="width:25%;"></div>
-			    <div id="lista3" class="ui-block-b" style="width:50%;">
+			<div class="ui-grid-solo">
+    			<div class="ui-block-a">
 					<ul id='list3' data-role='listview' data-inset='true'>
 					</ul>
 				</div>
-			    <div class="ui-block-c" style="width:25%;"></div>
 			</div>
     	</div>
 		<div data-role="footer" class="ui-content">
@@ -208,16 +199,14 @@
 			<div id="library"></div>
 		</div>
     	<div data-role="main" class="ui-content">
-			<div class="ui-grid-b">
-			    <div class="ui-block-a" style="width:25%;"></div>
-			    <div id="lista1" class="ui-block-b" style="width:50%;">
+			<div class="ui-grid-solo">
+    			<div class="ui-block-a">
 					<label for="searchBookName">Type name of book:</label>
 					<input id="searchBookName" type="search" data-clear-btn="true">
 					<button class="ui-btn ui-corner-all" onclick="searchBookOnTheList()">SEARCH IT</button>
 					<ul id='list1' data-role='listview' data-inset='true'>
 					</ul>
 				</div>
-			    <div class="ui-block-c" style="width:25%;"></div>
 			</div>
     	</div>
 		<div data-role="footer" class="ui-content">
@@ -230,13 +219,11 @@
 			<div id="library"></div>
 		</div>
     	<div data-role="main" class="ui-content">
-			<div class="ui-grid-b">
-			    <div class="ui-block-a" style="width:25%;"></div>
-			    <div id="lista2" class="ui-block-b" style="width:50%;">
+			<div class="ui-grid-solo">
+    			<div class="ui-block-a">
 					<ul id='list2' data-role='listview' data-inset='true'>
 					</ul>
 				</div>
-			    <div class="ui-block-c" style="width:25%;"></div>
 			</div>
     	</div>
 		<div data-role="footer" class="ui-content">
@@ -250,11 +237,11 @@
 			<div id="library"></div>
 		</div>
     	<div data-role="main" class="ui-content">
-			<div class="ui-grid-b">
-				<div class="ui-block-a" style="width:25%;"></div>
-				<div id="chart_div" class="ui-block-b" style="width:50%">
+			<div class="ui-grid-solo">
+    			<div class="ui-block-a">
+					<div id="chart_div" style="width:100%">
+					</div>
 				</div>
-				<div class="ui-block-c" style="width:25%;"></div>
 			</div>
     	</div>
 		<div data-role="footer" class="ui-content">
@@ -269,7 +256,9 @@
 		</div>
     	<div data-role="main" class="ui-content">
 			<div class="ui-grid-a">
-				<div class="ui-block-a"><div style="float: right; margin-right:30px;"><img class="picrture" id="userPhoto"></img></div></div>
+				<div class="ui-block-a">
+					<img class="picrture" id="userPhoto"></img>
+				</div>
 				<div class="ui-block-b">
 					<p id="userName">Name: </p>
 					<p id="userEmail">Email: </p>
@@ -277,16 +266,12 @@
 					<!--<button class="ui-btn ui-corner-all" onclick="currentUser()">Current User</button>-->
 				</div>
 			</div>
-			<div class="ui-grid-c">
+			<div class="ui-grid-a">
 				<div class="ui-block-a">
-				</div>
-				<div class="ui-block-b">
 					<button class="ui-btn ui-corner-all" data-transition="slidedown" onclick="addedBooks()">ADDED BOOKS</button>
 				</div>
-				<div class="ui-block-c">
+				<div class="ui-block-b">
 					<button class="ui-btn ui-corner-all" data-transition="slidedown" onclick="bookedBooks()">BOOKED BOOKS</button>
-				</div>
-				<div class="ui-block-d">
 				</div>
 	    	</div>
 		<div data-role="footer" class="ui-content">
