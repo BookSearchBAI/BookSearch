@@ -11,4 +11,18 @@
     <feature name="http://api.phonegap.com/1.0/network" />
     <gap:plugin name="cordova-plugin-whitelist" source="npm" />
     <plugin name="cordova-plugin-geolocation" spec="~4.0.1" />
+    <plugin name="cordova-plugin-buildinfo" spec="~2.0.1" />
+    <plugin name="cordova-universal-links-plugin" spec="~1.2.1" />
+    <plugin name="cordova-plugin-browsertab" spec="~0.2.0" />
+    <plugin name="cordova-plugin-inappbrowser" spec="~3.0.0" />
+    <plugin name="cordova-plugin-customurlscheme" spec="~4.3.0">
+        <variable name="URL_SCHEME" value="com.firebase.cordova" />
+    </plugin>
+	<universal-links>
+    <host name="https://zr253.app.goo.gl" scheme="https" />
+    <host name="booksearch-79aa4.firebaseapp.com" scheme="https">
+        <path url="/__/auth/callback"/>
+    </host>
+	</universal-links>
+	<preference name="AndroidLaunchMode" value="singleTask" />
 </widget>
