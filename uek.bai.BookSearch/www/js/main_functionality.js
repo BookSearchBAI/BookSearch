@@ -642,8 +642,10 @@ function lookupsetup()
 						var title = "<li>" + "Title: " + Object.values(childSnapshot.val().books)[j].title + "</li>";
 						var coords = Object.values(childSnapshot.val().books)[j].location_ccords;
 						if(typeof coords != 'undefined'){
+							console.log("================MARKER===================");
 							var mkr = L.marker([coords.split(" ")[0], coords.split(" ")[1]], {icon: stdmarker}).addTo(lmap);
 							mkr.bindPopup(title);
+							console.log("================ENDMARKER================");
 						}
 					}
 				}
