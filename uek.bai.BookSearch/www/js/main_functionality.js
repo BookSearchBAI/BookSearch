@@ -642,9 +642,7 @@ function lookupsetup()
 						
 						var coords = Object.values(childSnapshot.val().books)[j].location_ccords;
 						var price = Object.values(childSnapshot.val().books)[j].price;
-						var isbn = isbn = Object.keys(snapshot.val())[j];
-						var owner = childSnapshot.key;
-						var title = "<li>" + "Title: " + Object.values(childSnapshot.val().books)[j].title + "<br>" + "Price:" + price  + "</li><br><button class=\"ui-btn ui-corner-all\" onclick=\"bookTheBook(" + "'" + isbn + "'" +"," + "'"+owner+"'" + ")\"" + ">BOOK IT</button></li>";
+						var title = "<li>" + "Title: " + Object.values(childSnapshot.val().books)[j].title + "<br>" + "Price:" + price  + "</li><br><button class=\"ui-btn ui-corner-all\" onclick=\"bookTheBook(" + "'" + Object.keys(childSnapshot.val().books)[j] + "'" +"," + "'"+childSnapshot.key+"'" + ")\"" + ">BOOK IT</button></li>";
 						if(typeof coords != 'undefined'){
 							var mkr = L.marker([coords.split(" ")[0], coords.split(" ")[1]], {icon: stdmarker}).addTo(lmap);
 							mkr.bindPopup(title);
