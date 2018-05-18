@@ -639,13 +639,15 @@ function lookupsetup()
 				if(userInfo.id!=childSnapshot.key){
 					var i = Object.keys(childSnapshot.val().books).length;
 					for(var j = 0; j<i; j++){
-						var title = "<li>" + "Title: " + Object.values(childSnapshot.val().books)[j].title + "</li>";
+						
 						var coords = Object.values(childSnapshot.val().books)[j].location_ccords;
+						var price = Object.values(childSnapshot.val().books)[j].price;
+						var isbn = isbn = Object.keys(snapshot.val())[j];
+						var owner = childSnapshot.key;
+						var title = "<li>" + "Title: " + Object.values(childSnapshot.val().books)[j].title + "<br>" + "Price:" + price  + "</li><br><button class=\"ui-btn ui-corner-all\" onclick=\"bookTheBook(" + "'" + isbn + "'" +"," + "'"+owner+"'" + ")\"" + ">BOOK IT</button></li>";
 						if(typeof coords != 'undefined'){
-							console.log("================MARKER===================");
 							var mkr = L.marker([coords.split(" ")[0], coords.split(" ")[1]], {icon: stdmarker}).addTo(lmap);
 							mkr.bindPopup(title);
-							console.log("================ENDMARKER================");
 						}
 					}
 				}
