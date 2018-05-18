@@ -50,5 +50,7 @@ Link do strony projektu: https://booksearchbai.github.io/BookSearch/
 
 Link do Trello: https://trello.com/b/XKeRqdFC/searchbook
 
+Link do raportu prac: https://docs.google.com/spreadsheets/d/1sMt8YwMOX3ovH0IiHjfGCni0ZTKkKd8pDthw1edjeE4/edit?usp=sharing
+
 
 
