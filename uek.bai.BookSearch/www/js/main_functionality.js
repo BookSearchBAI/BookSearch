@@ -365,6 +365,8 @@ function searchBookOnTheList(){
 
 function bookTheBook(isbn,ownerID){
 
+	function ax(){location.href = "#searchBook"};
+	navigator.notification.alert('Book added to booked list', ax, 'Reservation', 'OK');
 	var owner_name;
 	var owner_email;
 	var owner_mobile;
